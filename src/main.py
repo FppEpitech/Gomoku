@@ -6,11 +6,12 @@
 ## main
 ##
 
+from src.communication.parser import parse_command
+
 def main():
     while True:
         command = str(input(''))
-        print("name=\"SomeBrain\", version=\"1.0\", author=\"FPP\", country=\"FR\"")
-        print("OK")
+        parse_command(command)
 
 if __name__ == "__main__":
     main()
