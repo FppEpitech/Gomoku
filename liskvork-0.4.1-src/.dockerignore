@@ -1,0 +1,12 @@
+ais
+Dockerfile
+.gitignore
+.git/
+**/*.md
+.github
+LICENSE
+flake.*
+README.md
+zig-out
+.zig-cache
+.dockerignore
