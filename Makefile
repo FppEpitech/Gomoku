@@ -7,21 +7,29 @@
 
 NAME = pbrain-gomoku-ai
 
+MAIN = src/main.py
+
 all: $(NAME)
 
 $(NAME):
-	cp src/main.py $(NAME)
-	chmod 775 $(NAME)
+	cp $(MAIN) $(NAME)
+	chmod +x $(NAME)
 
 clean:
-	rm -rf __pycache__
+	rm -rf $(NAME)
 
 fclean: clean
-	rm -f $(NAME)
 
-re: fclean all
+re:	fclean all
 
 IMAGE	= epitechcontent/epitest-docker
 
 docker:
 	sudo docker run -it -v $(shell pwd):/app --workdir /app $(IMAGE)
+
+run: $(NAME)
+	cp tests/liskvork-bin ./
+	cp tests/config.ini ./
+	./liskvork-bin
+	rm -f liskvork-bin
+	rm -f config.ini
