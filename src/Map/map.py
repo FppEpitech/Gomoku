@@ -34,7 +34,16 @@ class Map:
                 self.map[x].append(Cell())
 
     def displayMap(self) -> None:
+        if self.size == 0:
+            return
         for x in range(self.size):
+            print("===", end="")
+        print()
+        for x in range(self.size):
+            print(end=" ")
             for y in range(self.size):
-                print(self.map[y][x].value.value, end=" ")
+                print(self.map[y][x].value.value, end="  ")
             print()
+        for x in range(self.size):
+            print("===", end="")
+        print()
