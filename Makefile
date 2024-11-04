@@ -1,8 +1,8 @@
 ##
 ## EPITECH PROJECT, 2024
-## MyGomoku
+## Gomoku
 ## File description:
-## Makefile
+## Makefile of the project
 ##
 
 NAME = pbrain-gomoku-ai
@@ -21,3 +21,8 @@ clean:
 fclean: clean
 
 re:	fclean all
+
+IMAGE	= epitechcontent/epitest-docker
+
+docker:
+	sudo docker run -it -v $(shell pwd):/app --workdir /app $(IMAGE)
