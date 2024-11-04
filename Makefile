@@ -26,3 +26,10 @@ IMAGE	= epitechcontent/epitest-docker
 
 docker:
 	sudo docker run -it -v $(shell pwd):/app --workdir /app $(IMAGE)
+
+run: $(NAME)
+	cp tests/liskvork-bin ./
+	cp tests/config.ini ./
+	./liskvork-bin
+	rm -f liskvork-bin
+	rm -f config.ini
