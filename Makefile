@@ -17,6 +17,7 @@ $(NAME):
 
 clean:
 	rm -rf $(NAME)
+	- rm output.log
 
 fclean: clean
 

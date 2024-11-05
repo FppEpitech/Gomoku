@@ -5,6 +5,7 @@
 ## main
 ##
 
+import random
 from enum import Enum
 
 class CellValue(Enum):
@@ -22,10 +23,9 @@ class Cell:
 
 class Map:
 
-    def __init__(self, size: int) -> None:
-        self.size : int = size
+    def __init__(self) -> None:
+        self.size : int = 0
         self.map : list[list[Cell]] = []
-        self.createMap(self.size)
 
     def createMap(self, size : int) -> None:
         for x in range(size):
@@ -36,14 +36,32 @@ class Map:
     def displayMap(self) -> None:
         if self.size == 0:
             return
+        with open("output.log", "a") as f:
+            for x in range(self.size):
+                print("===", end="", file=f)
+            print("", file=f)
+            for x in range(self.size):
+                print("", end=" ", file=f)
+                for y in range(self.size):
+                    print(self.map[x][y].value.value, end="  ", file=f)
+                print("", file=f)
+            for x in range(self.size):
+                print("===", end="", file=f)
+            print("", file=f)
+
+    def playRandom(self) -> None:
+        empty_cells = []
         for x in range(self.size):
-            print("===", end="")
-        print()
-        for x in range(self.size):
-            print(end=" ")
             for y in range(self.size):
-                print(self.map[y][x].value.value, end="  ")
-            print()
-        for x in range(self.size):
-            print("===", end="")
-        print()
+                if self.map[x][y].value == CellValue.NONE:
+                    empty_cells.append((x, y))
+
+        if empty_cells:
+            x, y = random.choice(empty_cells)
+            self.map[x][y].setValue(CellValue.PLAYER1)
+            print(f"{x}, {y}")
+
+            with open("output.log", "a") as f:
+                print(f"We've played on : {x},{y}", file=f)
+            self.displayMap()
+

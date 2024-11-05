@@ -6,11 +6,15 @@
 ## main
 ##
 
+from src.Map.map import *
+from src.communication.parser import parse_command
+
 def main():
+    map: Map = Map()
+
     while True:
-        command = str(input(''))
-        print("name=\"SomeBrain\", version=\"1.0\", author=\"FPP\", country=\"FR\"")
-        print("OK")
+        command:str = str(input(''))
+        parse_command(command, map)
 
 if __name__ == "__main__":
     main()
