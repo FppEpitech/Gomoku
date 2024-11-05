@@ -27,13 +27,13 @@ class Map:
         self.size : int = 0
         self.map : list[list[Cell]] = []
 
-    def createMap(self, size : int) -> None:
+    def create_map(self, size : int) -> None:
         for x in range(size):
             self.map.append([])
             for y in range(size):
                 self.map[x].append(Cell())
 
-    def displayMap(self) -> None:
+    def display_map(self) -> None:
         if self.size == 0:
             return
         with open("output.log", "a") as f:
@@ -49,7 +49,7 @@ class Map:
                 print("===", end="", file=f)
             print("", file=f)
 
-    def playRandom(self) -> None:
+    def play_random(self) -> None:
         empty_cells = []
         for x in range(self.size):
             for y in range(self.size):
@@ -63,5 +63,5 @@ class Map:
 
             with open("output.log", "a") as f:
                 print(f"We've played on : {x},{y}", file=f)
-            self.displayMap()
+            self.display_map()
 
