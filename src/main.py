@@ -6,12 +6,15 @@
 ## main
 ##
 
+from src.Map.map import *
 from src.communication.parser import parse_command
 
 def main():
+    map:Map = Map()
+
     while True:
-        command = str(input(''))
-        parse_command(command)
+        command:str = str(input(''))
+        parse_command(command, map)
 
 if __name__ == "__main__":
     main()
