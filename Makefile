@@ -9,15 +9,19 @@ NAME = pbrain-gomoku-ai
 
 MAIN = src/main.py
 
+TEST = unit_tests
+MAIN_TESTS = tests/tests.py
+
 all: $(NAME)
 
 $(NAME):
 	cp $(MAIN) $(NAME)
 	chmod +x $(NAME)
 
-clean:
+clean: clean_tests
 	rm -rf $(NAME)
 	- rm output.log
+	- rm board.log
 
 fclean: clean
 
@@ -34,3 +38,12 @@ run: $(NAME)
 	./liskvork-bin
 	rm -f liskvork-bin
 	rm -f config.ini
+
+tests_run: all
+	cp $(MAIN_TESTS) $(TEST)
+	chmod +x $(TEST)
+	./unit_tests
+	rm unit_tests
+
+clean_tests:
+	rm -rf $(TEST)
