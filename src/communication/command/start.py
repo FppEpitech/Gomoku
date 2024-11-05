@@ -8,7 +8,7 @@
 
 from src.Map.map import *
 
-def handle_start(size:int, map:Map) -> None:
+def handle_start(size: int, map: Map) -> None:
     if (size != 20):
         print("ERROR size is not 20")
     else:

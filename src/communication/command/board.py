@@ -8,7 +8,7 @@
 
 from src.Map.map import *
 
-def handle_board(map:Map) -> None:
+def handle_board(map: Map) -> None:
 
     while True:
         line:str = str(input(''))

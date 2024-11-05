@@ -17,7 +17,7 @@ from src.communication.command.info import handle_info
 from src.communication.command.end import handle_end
 from src.communication.command.about import handle_about
 
-def parse_command(command:str, map_ground:Map) -> None:
+def parse_command(command: str, map_ground: Map) -> None:
     parts = command.split()
     cmd = parts[0].upper()
 
