@@ -6,10 +6,11 @@
 ## tests
 ##
 
-from tests.esay_win.test_esay_win import *
+from tests.easy_win.test_easy_win import *
+from tests.easy_lose.test_easy_lose import *
 
 def main():
-    tests_easy_wins()
+    unittest.main()
 
 if __name__ == "__main__":
     main()

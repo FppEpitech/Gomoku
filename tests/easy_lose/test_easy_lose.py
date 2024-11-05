@@ -3,11 +3,13 @@
 ## EPITECH PROJECT, 2024
 ## Gomoku
 ## File description:
-## tests easy win
+## tests easy loses
 ##
 
 from src.Map.map import *
 from src.communication.command.board import handle_board as BOARD_COMMAND
+from tests.create_boards.create_boards import create_board
+
 import unittest
 from unittest.mock import patch
 from io import StringIO
@@ -15,7 +17,7 @@ from io import StringIO
 BOARD1 = [
     [0,0,0,0,0],
     [0,0,0,0,0],
-    [1,1,1,1,0],
+    [2,2,2,2,0],
     [0,0,0,0,0],
     [0,0,0,0,0]
 ]
@@ -23,44 +25,32 @@ BOARD1 = [
 BOARD2 = [
     [0,0,0,0,0],
     [0,0,0,0,0],
-    [1,1,0,1,1],
+    [2,2,0,2,2],
     [0,0,0,0,0],
     [0,0,0,0,0]
 ]
 
 BOARD3 = [
     [0,0,0,0,0],
-    [0,0,0,1,0],
-    [0,0,1,0,0],
-    [0,1,0,0,0],
-    [1,0,0,0,0]
+    [0,0,0,2,0],
+    [0,0,2,0,0],
+    [0,2,0,0,0],
+    [2,0,0,0,0]
 ]
 
 BOARD4 = [
-    [0,0,0,0,1],
-    [0,0,0,1,0],
+    [0,0,0,0,2],
+    [0,0,0,2,0],
     [0,0,0,0,0],
-    [0,1,0,0,0],
-    [1,0,0,0,0]
+    [0,2,0,0,0],
+    [2,0,0,0,0]
 ]
 
-def create_board(board) -> str:
-    result : list = []
-    for x in range(len(board)):
-        for y in range(len(board)):
-            if board[x][y] == 1 or board[x][y] == 2:
-                result.append(f"{x},{y},{board[x][y]}")
-    result.append("DONE")
-    return result
-
-def tests_easy_wins():
-    unittest.main()
-
-class TestBoardControl(unittest.TestCase):
+class TestLoseControl(unittest.TestCase):
     @patch('builtins.input', side_effect=create_board(BOARD1))
     @patch('sys.stdout', new_callable=StringIO)
 
-    def test_easy_win_side(self, mock_stdout, mock_input):
+    def test_easy_lose_side(self, mock_stdout, mock_input):
         map = Map()
         map.size = len(BOARD1)
         map.createMap(map.size)
@@ -71,7 +61,7 @@ class TestBoardControl(unittest.TestCase):
 
     @patch('builtins.input', side_effect=create_board(BOARD2))
     @patch('sys.stdout', new_callable=StringIO)
-    def test_easy_win_middle(self, mock_stdout, mock_input):
+    def test_easy_lose_middle(self, mock_stdout, mock_input):
         map = Map()
         map.size = len(BOARD2)
         map.createMap(map.size)
@@ -82,7 +72,7 @@ class TestBoardControl(unittest.TestCase):
 
     @patch('builtins.input', side_effect=create_board(BOARD3))
     @patch('sys.stdout', new_callable=StringIO)
-    def test_easy_win_diag(self, mock_stdout, mock_input):
+    def test_easy_lose_diag(self, mock_stdout, mock_input):
         map = Map()
         map.size = len(BOARD3)
         map.createMap(map.size)
@@ -93,7 +83,7 @@ class TestBoardControl(unittest.TestCase):
 
     @patch('builtins.input', side_effect=create_board(BOARD4))
     @patch('sys.stdout', new_callable=StringIO)
-    def test_easy_win_diag_middle(self, mock_stdout, mock_input):
+    def test_easy_lose_diag_middle(self, mock_stdout, mock_input):
         map = Map()
         map.size = len(BOARD4)
         map.createMap(map.size)
