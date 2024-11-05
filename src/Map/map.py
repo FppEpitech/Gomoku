@@ -43,7 +43,7 @@ class Map:
             for x in range(self.size):
                 print("", end=" ", file=f)
                 for y in range(self.size):
-                    print(self.map[y][x].value.value, end="  ", file=f)
+                    print(self.map[x][y].value.value, end="  ", file=f)
                 print("", file=f)
             for x in range(self.size):
                 print("===", end="", file=f)
@@ -59,7 +59,7 @@ class Map:
         if empty_cells:
             x, y = random.choice(empty_cells)
             self.map[x][y].setValue(CellValue.PLAYER1)
-            print(f"{x},{y}")
+            print(f"{x}, {y}")
 
             with open("output.log", "a") as f:
                 print(f"We've played on : {x},{y}", file=f)
