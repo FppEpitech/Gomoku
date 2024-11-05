@@ -59,9 +59,8 @@ class Map:
         if empty_cells:
             x, y = random.choice(empty_cells)
             self.map[x][y].setValue(CellValue.PLAYER1)
-            print(f"{x}, {y}")
+            print(f"{x},{y}")
 
             with open("output.log", "a") as f:
                 print(f"We've played on : {x},{y}", file=f)
             self.displayMap()
-

@@ -22,13 +22,14 @@ def handle_board(map: Map) -> None:
             y = int(y_str)
             field = int(field_str)
 
+            cell_value = CellValue.NONE
             if field == 1:
                 cell_value = CellValue.PLAYER1
             elif field == 2:
                 cell_value = CellValue.PLAYER2
             else:
                 raise ValueError("Champ de valeur invalide.")
-            map[x][y].setValue(cell_value)
+            map.map[x][y].setValue(cell_value)
             with open("output.log", "a") as f:
                 print(f"Case of Map [{x}] | [{y}] <- [{field}] Player", file=f)
         except ValueError:
