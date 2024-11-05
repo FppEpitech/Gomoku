@@ -18,6 +18,7 @@ $(NAME):
 clean:
 	rm -rf $(NAME)
 	- rm output.log
+	- rm board.log
 
 fclean: clean
 
