@@ -8,6 +8,11 @@
 import random
 from enum import Enum
 
+HORIZONTAL = (0, 1)
+VERTICAL = (1, 1)
+DIAGONAL_RIGHT = (1, 0)
+DIAGONAL_LEFT = (1, -1)
+
 class CellValue(Enum):
     NONE = "."
     PLAYER1 = "O"
@@ -49,19 +54,52 @@ class Map:
                 print("===", end="", file=f)
             print("", file=f)
 
-    def play_random(self) -> None:
-        empty_cells = []
+    def can_win(self, player: CellValue) -> tuple:
         for x in range(self.size):
             for y in range(self.size):
                 if self.map[x][y].value == CellValue.NONE:
-                    empty_cells.append((x, y))
+                    if self.check_win(x, y, player):
+                        return (x, y)
+        return None
 
-        if empty_cells:
-            x, y = random.choice(empty_cells)
-            self.map[x][y].setValue(CellValue.PLAYER1)
-            print(f"{x}, {y}")
+    def check_win(self, x: int, y: int, player: CellValue) -> bool:
+        self.map[x][y].value = player
+        win = (self.check_direction(x, y, player, *HORIZONTAL) or
+               self.check_direction(x, y, player, *VERTICAL) or
+               self.check_direction(x, y, player, *DIAGONAL_RIGHT) or
+               self.check_direction(x, y, player, *DIAGONAL_LEFT))
+        self.map[x][y].value = CellValue.NONE
+        return win
 
-            with open("output.log", "a") as f:
-                print(f"We've played on : {x},{y}", file=f)
-            self.display_map()
+    def check_direction(self, x: int, y: int, player: CellValue, dx: int, dy: int) -> bool:
+        count = 1
 
+        count += self.count_in_direction(x, y, player, dx, dy)
+        count += self.count_in_direction(x, y, player, -dx, -dy)
+        return count >= 5
+
+    def count_in_direction(self, x: int, y: int, player: CellValue, dx: int, dy: int) -> int:
+        count = 0
+        while True:
+            x += dx
+            y += dy
+            if 0 <= x < self.size and 0 <= y < self.size:
+                if self.map[x][y].value == player:
+                    count += 1
+                else:
+                    break
+            else:
+                break
+        return count
+
+    def play(self) -> None:
+        winning_move = self.can_win(CellValue.PLAYER1)
+        avoid_loose = self.can_win(CellValue.PLAYER2)
+
+        if winning_move:
+            print(f"{winning_move[0]}, {winning_move[1]}")
+        elif avoid_loose:
+            print(f"{avoid_loose[0]}, {avoid_loose[1]}")
+        else:
+            #To do AI
+            print(f"0, 0") # This is shit
