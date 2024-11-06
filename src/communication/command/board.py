@@ -36,4 +36,4 @@ def handle_board(map: Map) -> None:
             with open("output.log", "a") as f:
                 print(f"Erreur dans le format des données : {line}", file=f)
             continue
-    map.play_random()
+    map.play()

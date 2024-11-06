@@ -39,9 +39,11 @@ run: $(NAME)
 	rm -f liskvork-bin
 	rm -f config.ini
 
-tests: all
+tests_run: all
 	cp $(MAIN_TESTS) $(TEST)
 	chmod +x $(TEST)
+	./unit_tests
+	rm unit_tests
 
 clean_tests:
 	rm -rf $(TEST)

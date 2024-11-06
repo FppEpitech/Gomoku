@@ -12,4 +12,4 @@ def handle_turn(x: int, y: int, map: Map) -> None:
     if 0 <= x < map.size and 0 <= y < map.size:
         map.map[x][y].setValue(CellValue.PLAYER2)
 
-    map.play_random()
+    map.play()
