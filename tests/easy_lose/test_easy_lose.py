@@ -7,6 +7,7 @@
 ##
 
 from src.Map.map import *
+from src.algorithm.ai import Ai
 from src.communication.command.board import handle_board as BOARD_COMMAND
 from tests.create_boards.create_boards import create_board
 
@@ -54,7 +55,7 @@ class TestLoseControl(unittest.TestCase):
         map = Map()
         map.size = len(BOARD1)
         map.create_map(map.size)
-        BOARD_COMMAND(map)
+        BOARD_COMMAND(map, Ai())
         printed_output = mock_stdout.getvalue().strip()
         print(printed_output)
         self.assertEqual(printed_output, "2, 4")
@@ -65,7 +66,7 @@ class TestLoseControl(unittest.TestCase):
         map = Map()
         map.size = len(BOARD2)
         map.create_map(map.size)
-        BOARD_COMMAND(map)
+        BOARD_COMMAND(map, Ai())
         printed_output = mock_stdout.getvalue().strip()
         print(printed_output)
         self.assertEqual(printed_output, "2, 2")
@@ -76,7 +77,7 @@ class TestLoseControl(unittest.TestCase):
         map = Map()
         map.size = len(BOARD3)
         map.create_map(map.size)
-        BOARD_COMMAND(map)
+        BOARD_COMMAND(map, Ai())
         printed_output = mock_stdout.getvalue().strip()
         print(printed_output)
         self.assertEqual(printed_output, "0, 4")
@@ -87,7 +88,7 @@ class TestLoseControl(unittest.TestCase):
         map = Map()
         map.size = len(BOARD4)
         map.create_map(map.size)
-        BOARD_COMMAND(map)
+        BOARD_COMMAND(map, Ai())
         printed_output = mock_stdout.getvalue().strip()
         print(printed_output)
         self.assertEqual(printed_output, "2, 2")
