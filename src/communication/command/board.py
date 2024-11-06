@@ -7,8 +7,9 @@
 ##
 
 from src.Map.map import *
+from src.algorithm.ai import *
 
-def handle_board(map: Map) -> None:
+def handle_board(map: Map, ai: Ai) -> None:
 
     while True:
         line:str = str(input(''))
@@ -36,4 +37,4 @@ def handle_board(map: Map) -> None:
             with open("output.log", "a") as f:
                 print(f"Erreur dans le format des données : {line}", file=f)
             continue
-    map.play()
+    ai.play(map)

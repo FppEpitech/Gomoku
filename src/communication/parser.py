@@ -9,6 +9,7 @@
 import sys
 
 from src.Map.map import *
+from src.algorithm.ai import *
 from src.Game_rules.game_rules import *
 from src.communication.command.start import handle_start
 from src.communication.command.turn import handle_turn
@@ -18,7 +19,7 @@ from src.communication.command.info import handle_info
 from src.communication.command.end import handle_end
 from src.communication.command.about import handle_about
 
-def parse_command(command: str, map_ground: Map,  game_rule: Game_rules) -> None:
+def parse_command(command: str, map_ground: Map,  game_rule: Game_rules, ai: Ai) -> None:
     parts = command.split()
     cmd = parts[0].upper()
 
@@ -28,9 +29,9 @@ def parse_command(command: str, map_ground: Map,  game_rule: Game_rules) -> None
 
     commands = {
         "START": lambda parts: handle_start(int(parts[1]), map_ground),
-        "TURN": lambda parts: handle_turn(*map(int, parts[1].split(',')), map_ground),
-        "BEGIN": lambda parts: handle_begin(map_ground),
-        "BOARD": lambda parts: handle_board(map_ground),
+        "TURN": lambda parts: handle_turn(*map(int, parts[1].split(',')), map_ground, ai),
+        "BEGIN": lambda parts: handle_begin(map_ground, ai),
+        "BOARD": lambda parts: handle_board(map_ground, ai),
         "INFO": lambda parts: handle_info(str(parts[1]), int(parts[2]), game_rule),
         "END": lambda parts: handle_end(),
         "ABOUT": lambda parts: handle_about(),

@@ -7,6 +7,7 @@
 ##
 
 from src.Map.map import *
+from src.algorithm.ai import *
 
-def handle_begin(map: Map) -> None:
-    map.play()
+def handle_begin(map: Map, ai: Ai) -> None:
+    ai.play(map)

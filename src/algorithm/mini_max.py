@@ -24,12 +24,18 @@ class MiniMax:
                     moves.append((x, y))
         return moves
 
-    def compute(self, map : Map):
+    def compute(self, map):
+        best_value = -math.inf
+        best_move = None
         for move in self.get_valid_moves(map):
             x, y = move
             map.map[x][y].setValue(CellValue.PLAYER1)
-            self.minimax(map, DEPTH - 1, False, -math.inf, math.inf)
+            score = self.minimax(map, DEPTH - 1, False, -math.inf, math.inf)
             map.map[x][y].setValue(CellValue.NONE)
+            if score > best_value:
+                best_value = score
+                best_move = move
+        return best_move
 
     def evaluation(self):
         return random.randint(-100, 100)
