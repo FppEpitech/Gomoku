@@ -56,7 +56,7 @@ void Parser::_handleBoard(Map& map)
             std::string x_str, y_str, field_str;
 
             if (!std::getline(iss, x_str, ',') || !std::getline(iss, y_str, ',') || !std::getline(iss, field_str))
-                throw std::invalid_argument("Format de ligne invalide.");
+                throw std::invalid_argument("Invalid format.");
 
             int x = std::stoi(x_str);
             int y = std::stoi(y_str);
@@ -68,7 +68,7 @@ void Parser::_handleBoard(Map& map)
             else if (field == 2)
                 cell_value = CellValue::PLAYER2;
             else
-                throw std::invalid_argument("Champ de valeur invalide.");
+                throw std::invalid_argument("Invalid data.");
 
             playGround[x][y].setValue(cell_value);
 
@@ -80,7 +80,7 @@ void Parser::_handleBoard(Map& map)
         } catch (const std::exception& e) {
             std::ofstream outputFile("output.log", std::ios_base::app);
             if (outputFile.is_open()) {
-                outputFile << "Erreur dans le format des données : " << line << std::endl;
+                outputFile << "Error in format of data : " << line << std::endl;
                 outputFile.close();
             }
             continue;
@@ -170,7 +170,7 @@ bool Parser::parseCommand(std::string command, Map& map, GameRules& rules)
     } else if (cmd == "ABOUT") {
         _handleAbout();
     } else {
-        std::cerr << "Commande non reconnue : " << cmd << "\n";
+        std::cerr << "Unrecognized command : " << cmd << "\n";
         return false;
     }
 
