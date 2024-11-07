@@ -5,25 +5,51 @@
 ## Makefile of the project
 ##
 
+# Flags
 NAME = pbrain-gomoku-ai
 
-MAIN = src/main.py
+MAIN = src/main.cpp
+
+SRC = 	src/Parser/Parser.cpp \
+		src/Map/Map.cpp \
+		src/GameRules/GamesRules.cpp
 
 TEST = unit_tests
-MAIN_TESTS = tests/tests.py
+
+# Flags
+OBJ			=	$(SRC:.cpp=.o)
+MAIN_OBJ	=	$(MAIN:.cpp=.o)
+
+CXXFLAGS 	= 	-std=c++20 -Wall -Wextra
+
+# Colors
+YELLOW 		= 	/bin/echo -e "\x1b[33m $1\x1b[0m"
+GREEN 		= 	/bin/echo -e "\x1b[32m $1\x1b[0m"
+
+CC	=	g++
+
+%.o: %.cpp
+	@$(CC) -c $< -o $@ $(CXXFLAGS) && \
+	$(call YELLOW,"🆗 $<") || \
+	$(call YELLOW,"❌ $<")
 
 all: $(NAME)
 
-$(NAME):
-	cp $(MAIN) $(NAME)
-	chmod +x $(NAME)
+$(NAME): $(OBJ) $(MAIN_OBJ)
+	@$(CC) $(MAIN_OBJ) $(OBJ) -o $(NAME) $(CXXFLAGS) && \
+	$(call YELLOW,"✅ $@") || \
+	$(call YELLOW,"❌ $@")
 
-clean: clean_tests
-	rm -rf $(NAME)
+
+clean:
+	rm -f $(MAIN_OBJ) $(OBJ)
+	@$(call GREEN,"✅ [$@] done !")
 	- rm output.log
 	- rm board.log
 
 fclean: clean
+	@rm -f $(NAME)
+	@$(call GREEN,"✅ [$@] done !")
 
 re:	fclean all
 
@@ -38,12 +64,3 @@ run: $(NAME)
 	./liskvork-bin
 	rm -f liskvork-bin
 	rm -f config.ini
-
-tests_run: all
-	cp $(MAIN_TESTS) $(TEST)
-	chmod +x $(TEST)
-	./unit_tests
-	rm unit_tests
-
-clean_tests:
-	rm -rf $(TEST)
