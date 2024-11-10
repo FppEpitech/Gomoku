@@ -68,6 +68,7 @@ void Map::displayMap(void)
     for (std::size_t x = 0; x < _size; ++x)
         file << "===";
     file << std::endl;
+    file.close();
 }
 
 std::optional<std::pair<int, int>> Map::_canWin(CellValue player)
@@ -123,11 +124,41 @@ void Map::play(void)
 {
     auto winningMove = _canWin(CellValue::PLAYER1);
     auto avoidLose = _canWin(CellValue::PLAYER2);
+    std::ofstream file("output.log", std::ios_base::app);
 
-    if (winningMove)
-        std::cout << winningMove->first << ", " << winningMove->second << std::endl;
-    else if (avoidLose)
-        std::cout << avoidLose->first << ", " << avoidLose->second << std::endl;
-    else
-        std::cout << "0, 0" << std::endl; // To Do AI
+    if (winningMove) {
+        if (file.is_open())
+                file << "Winning move : " << winningMove->first << "," << winningMove->second << std::endl;
+        std::cout << winningMove->first << "," << winningMove->second << std::endl;
+        _map[winningMove->first][winningMove->second].setValue(CellValue::PLAYER1);
+    } else if (avoidLose) {
+        if (file.is_open())
+                file << "Avoid loosing move : " << avoidLose->first << "," << avoidLose->second << std::endl;
+        std::cout << avoidLose->first << "," << avoidLose->second << std::endl;
+        _map[avoidLose->first][avoidLose->second].setValue(CellValue::PLAYER1);
+    } else {
+        std::vector<std::pair<int, int>> empty_cells;
+        for (int x = 0; x < (int)_size; ++x) {
+            for (int y = 0; y < (int)_size; ++y) {
+                if (_map[x][y].getValue() == CellValue::NONE)
+                    empty_cells.emplace_back(x, y);
+            }
+        }
+
+        if (!empty_cells.empty()) {
+            std::srand(std::time(nullptr));
+            auto [x, y] = empty_cells[std::rand() % empty_cells.size()];
+
+            _map[x][y].setValue(CellValue::PLAYER1);
+            if (file.is_open())
+                file << "We've want to play on : " << x << "," << y << std::endl;
+            std::cout << x << "," << y << std::endl;
+
+            if (file.is_open())
+                file << "We've played on : " << x << "," << y << std::endl;
+
+            displayMap();
+        }
+    }
+    file.close();
 }
