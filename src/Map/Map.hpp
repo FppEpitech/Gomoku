@@ -5,6 +5,8 @@
 ** Map
 */
 
+#pragma once
+
 #include <ctime>
 #include <vector>
 #include <string>
@@ -17,7 +19,7 @@
 #define DIAGONAL_RIGHT 1, 0
 #define DIAGONAL_LEFT 1, -1
 
-#pragma once
+#define SCORE_PERCENTAGE 10
 
 enum class CellValue {
     NONE = '.',
@@ -102,6 +104,30 @@ class Map {
          */
         void play(void);
 
+        /**
+         * @brief This method evaluate the placement of a point
+         * on the map and return it score.
+         *
+         * @param x X of conditional play.
+         * @param y Y of conditional play.
+         * @param player Player to check.
+         * @return int Score of the evaluation.
+         */
+        int evaluation(int x, int y, CellValue player);
+
+        /**
+         * @brief Evaluate the score of a line.
+         *
+         * @param x X of conditional play.
+         * @param y Y of conditional play.
+         * @param player Player to check.
+         * @param vx Direction in X.
+         * @param vy Direction in Y.
+         * @param scoreMax Score max of the current point.
+         * @return std::size_t Return the Score max.
+         */
+        std::size_t evaluateLine(int x, int y, CellValue player, int vx, int vy, std::size_t scoreMax);
+
     private:
 
         /**
@@ -139,11 +165,10 @@ class Map {
          * @param player Player to check.
          * @param dx Direction in X.
          * @param dy Direction in Y
+         * @param isEvaluationMode if true, the none cells are not a problem.
          */
-        int _countInDirection(int x, int y, CellValue player, int dx, int dy);
-
+        int _countInDirection(int x, int y, CellValue player, int dx, int dy, bool isEvaluationMode);
 
         std::size_t _size;                       // Size of map.
         std::vector<std::vector<Cell>> _map;     // Map where play.
 };
-

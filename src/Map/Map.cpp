@@ -96,21 +96,30 @@ bool Map::_checkDirection(int x, int y, CellValue player, int dx, int dy)
 {
     int count = 1;
 
-    count += _countInDirection(x, y, player, dx, dy);
-    count += _countInDirection(x, y, player, -dx, -dy);
+    count += _countInDirection(x, y, player, dx, dy, false);
+    count += _countInDirection(x, y, player, -dx, -dy, false);
     return count >= 5;
 }
 
-int Map::_countInDirection(int x, int y, CellValue player, int dx, int dy)
+int Map::_countInDirection(int x, int y, CellValue player, int dx, int dy, bool isEvaluationMode)
 {
     int count = 0;
+    int counter = 0;
+    bool isBlank = false;
 
     while (true) {
+        if (isEvaluationMode && counter == 4)
+            break;
+        counter++;
         x += dx;
         y += dy;
         if (x >= 0 && x < (int)_size && y >= 0 && y < (int)_size) {
             if (_map[x][y].getValue() == player)
                 ++count;
+            else if (_map[x][y].getValue() == CellValue::NONE && isEvaluationMode && !isBlank) {
+                isBlank = true;
+                continue;
+            }
             else
                 break;
         } else {
@@ -161,4 +170,29 @@ void Map::play(void)
         }
     }
     file.close();
+}
+
+std::size_t Map::evaluateLine(int x, int y, CellValue player, int vx, int vy, std::size_t scoreMax)
+{
+    int count = 1;
+    count += _countInDirection(x, y, player, vx, vy, true);
+    count += _countInDirection(x, y, player, -vx, -vy, true);
+
+    if (count > 5)
+        count = 5;
+    count *= SCORE_PERCENTAGE;
+    if (count > (int)scoreMax)
+        scoreMax = count;
+
+    return scoreMax;
+}
+
+int Map::evaluation(int x, int y, CellValue player)
+{
+    std::size_t score = 0;
+    score = evaluateLine(x, y, player, HORIZONTAL, score);
+    score = evaluateLine(x, y, player, DIAGONAL_RIGHT, score);
+    score = evaluateLine(x, y, player, DIAGONAL_LEFT, score);
+    score = evaluateLine(x, y, player, VERTICAL, score);
+    return score;
 }
