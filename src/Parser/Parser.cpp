@@ -19,17 +19,17 @@ void Parser::_handleStart(std::size_t size, Map& map)
         std::ofstream file("output.log", std::ios_base::app);
         if (file.is_open()) {
             file << "Map created:" << std::endl;
-            file.close();
         } else {
             std::cerr << "Unable to open output.log" << std::endl;
         }
+        file.close();
         map.displayMap();
     }
 }
 
 void Parser::_handleTurn(std::size_t x, std::size_t y, Map& map)
 {
-    std::vector<std::vector<Cell>> playGround = map.getMap();
+    std::vector<std::vector<Cell>> &playGround = map.getMap();
 
     playGround[x][y].setValue(CellValue::PLAYER2);
     map.play();
@@ -43,7 +43,7 @@ void Parser::_handleBegin(Map& map)
 void Parser::_handleBoard(Map& map)
 {
     std::string line;
-    std::vector<std::vector<Cell>> playGround = map.getMap();
+    std::vector<std::vector<Cell>>& playGround = map.getMap();
 
     while (true) {
         std::getline(std::cin, line);
@@ -77,12 +77,13 @@ void Parser::_handleBoard(Map& map)
                 outputFile << "Case of Map [" << x << "] | [" << y << "] <- [" << field << "] Player" << std::endl;
                 outputFile.close();
             }
+            outputFile.close();
         } catch (const std::exception& e) {
             std::ofstream outputFile("output.log", std::ios_base::app);
             if (outputFile.is_open()) {
                 outputFile << "Error in format of data : " << line << std::endl;
-                outputFile.close();
             }
+            outputFile.close();
             continue;
         }
     }
