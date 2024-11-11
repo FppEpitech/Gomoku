@@ -31,6 +31,8 @@ void Parser::_handleTurn(std::size_t x, std::size_t y, Map& map)
 {
     std::vector<std::vector<Cell>> &playGround = map.getMap();
 
+    if (playGround.size() == 0)
+        return;
     playGround[x][y].setValue(CellValue::PLAYER2);
     map.play();
 }
