@@ -7,7 +7,10 @@
 
 #pragma once
 
+#include <set>
+#include <list>
 #include <ctime>
+#include <cmath>
 #include <vector>
 #include <string>
 #include <fstream>
@@ -20,6 +23,9 @@
 #define DIAGONAL_LEFT 1, -1
 
 #define SCORE_PERCENTAGE 10
+
+#define DEPTH 1
+#define RADIUS 2
 
 enum class CellValue {
     NONE = '.',
@@ -180,6 +186,35 @@ class Map {
          * @return std::pair<int, int> first is values before space, second is value after space.
          */
         std::pair<int, int> _countInDirectionEvaluation(int x, int y, CellValue player, int dx, int dy);
+
+        /**
+         * @brief Compute the tree with minimax.
+         *
+         * @return std::pair<int, int> Position to play.
+         */
+        std::pair<int, int> computeTree();
+
+        /**
+         * @brief Minimax algorithm.
+         *
+         * @param depth Depth to visualize.
+         * @param playerTurn True = player 1, false = player2.
+         * @param alpha Alpha value.
+         * @param beta Beta value.
+         * @param x X of conditional play.
+         * @param y Y of conditional play.
+         * @param moves List of available moves.
+         * @return int Score.
+         */
+        int miniMax(int depth, bool playerTurn, int alpha, int beta, int x, int y, std::vector<std::pair<int, int>> moves);
+
+        /**
+         * @brief Get the Valid Moves list.
+         *
+         * @param radius Radius arround played moves.
+         * @return std::vector<std::pair<int, int>> List of valid moves.
+         */
+        std::vector<std::pair<int, int>> getValidMoves(int radius);
 
         std::size_t _size;                       // Size of map.
         std::vector<std::vector<Cell>> _map;     // Map where play.

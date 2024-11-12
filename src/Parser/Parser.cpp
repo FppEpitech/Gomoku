@@ -39,7 +39,14 @@ void Parser::_handleTurn(std::size_t x, std::size_t y, Map& map)
 
 void Parser::_handleBegin(Map& map)
 {
-    map.play();
+    std::ofstream file("output.log", std::ios_base::app);
+    if (file.is_open())
+        file << "BEGIN move : " << MIDDLE_X << "," << MIDDLE_Y << std::endl;
+    file.close();
+    std::cout << MIDDLE_X << "," << MIDDLE_Y << std::endl;
+
+    std::vector<std::vector<Cell>> &playGround = map.getMap();
+    playGround[MIDDLE_X][MIDDLE_Y].setValue(CellValue::PLAYER1);
 }
 
 void Parser::_handleBoard(Map& map)

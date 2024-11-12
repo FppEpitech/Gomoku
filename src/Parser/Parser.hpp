@@ -5,6 +5,8 @@
 ** Parser
 */
 
+#pragma once
+
 #include <map>
 #include <string>
 #include <fstream>
@@ -12,11 +14,11 @@
 #include <iostream>
 #include <algorithm>
 
-
-#pragma once
-
 #include "../Map/Map.hpp"
 #include "../GameRules/GameRules.hpp"
+
+#define MIDDLE_X 10
+#define MIDDLE_Y 10
 
 class Parser {
 
