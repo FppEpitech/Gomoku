@@ -27,6 +27,9 @@
 #define DEPTH 3
 #define RADIUS 2
 
+#define PAWNS_TO_WIN 5
+#define PAWNS_FOUR 4
+
 enum class CellValue {
     NONE = '.',
     PLAYER1 = 'O',
@@ -137,11 +140,12 @@ class Map {
     private:
 
         /**
-         * @brief Check if the player can win.
+         * @brief Check if the player can align X pawns.
          *
          * @param player Player to check.
+         * @param nbPawns Nb Pawns to check if the player can align
          */
-        std::optional<std::pair<int, int>> _canWin(CellValue player);
+        std::optional<std::pair<int, int>> _canAlignNbPawns(CellValue player, int nbPawns);
 
         /**
          * @brief Check the conditional play.
@@ -149,8 +153,9 @@ class Map {
          * @param x X of conditional play.
          * @param y Y of conditional play.
          * @param player Player to check.
+         * @param nbPawns Nb Pawns to check if the player can align
          */
-        bool _checkWin(int x, int y, CellValue player);
+        bool _checkWin(int x, int y, CellValue player, int nbPawns);
 
         /**
          * @brief Check all direction of conditional play.
@@ -160,8 +165,9 @@ class Map {
          * @param player Player to check.
          * @param dx Direction in X.
          * @param dy Direction in Y
+         * @param nbPawns Nb Pawns to check if the player can align
          */
-        bool _checkDirection(int x, int y, CellValue player, int dx, int dy);
+        bool _checkDirection(int x, int y, CellValue player, int dx, int dy, int nbPawns);
 
         /**
          * @brief Check all direction of conditional play.
