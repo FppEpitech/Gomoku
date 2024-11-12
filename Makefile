@@ -12,6 +12,7 @@ MAIN = src/main.cpp
 
 SRC = 	src/Parser/Parser.cpp \
 		src/Map/Map.cpp \
+		src/Map/canAlign.cpp \
 		src/GameRules/GamesRules.cpp
 
 TEST_FILES	= 	easy_win/test_easy_win.cpp \

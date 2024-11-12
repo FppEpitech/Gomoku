@@ -71,59 +71,11 @@ void Map::displayMap(void)
     file.close();
 }
 
-std::optional<std::pair<int, int>> Map::_canWin(CellValue player)
-{
-    for (int x = 0; x < (int)_size; ++x)
-        for (int y = 0; y < (int)_size; ++y)
-            if (_map[x][y].getValue() == CellValue::NONE)
-                if (_checkWin(x, y, player))
-                    return std::make_pair(x, y);
-    return std::nullopt;
-}
-
-bool Map::_checkWin(int x, int y, CellValue player)
-{
-    _map[x][y].setValue(player);
-    bool win = (_checkDirection(x, y, player, HORIZONTAL) ||
-                _checkDirection(x, y, player, VERTICAL) ||
-                _checkDirection(x, y, player, DIAGONAL_RIGHT) ||
-                _checkDirection(x, y, player, DIAGONAL_LEFT));
-    _map[x][y].setValue(CellValue::NONE);
-    return win;
-}
-
-bool Map::_checkDirection(int x, int y, CellValue player, int dx, int dy)
-{
-    int count = 1;
-
-    count += _countInDirection(x, y, player, dx, dy);
-    count += _countInDirection(x, y, player, -dx, -dy);
-    return count >= 5;
-}
-
-int Map::_countInDirection(int x, int y, CellValue player, int dx, int dy)
-{
-    int count = 0;
-
-    while (true) {
-        x += dx;
-        y += dy;
-        if (x >= 0 && x < (int)_size && y >= 0 && y < (int)_size) {
-            if (_map[x][y].getValue() == player)
-                ++count;
-            else
-                break;
-        } else {
-            break;
-        }
-    }
-    return count;
-}
-
 void Map::play(void)
 {
-    auto winningMove = _canWin(CellValue::PLAYER1);
-    auto avoidLose = _canWin(CellValue::PLAYER2);
+    auto winningMove = _canAlignNbPawns(CellValue::PLAYER1, PAWNS_TO_WIN);
+    auto avoidLoose = _canAlignNbPawns(CellValue::PLAYER2, PAWNS_TO_WIN);
+    auto avoidLineFour = _canAlignNbPawns(CellValue::PLAYER2, PAWNS_FOUR);
     std::ofstream file("output.log", std::ios_base::app);
 
     if (winningMove) {
@@ -131,11 +83,16 @@ void Map::play(void)
                 file << "Winning move : " << winningMove->first << "," << winningMove->second << std::endl;
         std::cout << winningMove->first << "," << winningMove->second << std::endl;
         _map[winningMove->first][winningMove->second].setValue(CellValue::PLAYER1);
-    } else if (avoidLose) {
+    } else if (avoidLoose) {
         if (file.is_open())
-                file << "Avoid loosing move : " << avoidLose->first << "," << avoidLose->second << std::endl;
-        std::cout << avoidLose->first << "," << avoidLose->second << std::endl;
-        _map[avoidLose->first][avoidLose->second].setValue(CellValue::PLAYER1);
+                file << "Avoid loosing move : " << avoidLoose->first << "," << avoidLoose->second << std::endl;
+        std::cout << avoidLoose->first << "," << avoidLoose->second << std::endl;
+        _map[avoidLoose->first][avoidLoose->second].setValue(CellValue::PLAYER1);
+    } else if (avoidLineFour) {
+        if (file.is_open())
+                file << "Avoid Line of Four loosing move : " << avoidLineFour->first << "," << avoidLineFour->second << std::endl;
+        std::cout << avoidLineFour->first << "," << avoidLineFour->second << std::endl;
+        _map[avoidLineFour->first][avoidLineFour->second].setValue(CellValue::PLAYER1);
     } else {
         std::vector<std::pair<int, int>> empty_cells;
         for (int x = 0; x < (int)_size; ++x) {
