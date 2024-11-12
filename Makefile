@@ -6,20 +6,30 @@
 ##
 
 # Flags
-NAME = pbrain-gomoku-ai
+NAME 		= 	pbrain-gomoku-ai
 
-MAIN = src/main.cpp
+MAIN 		= 	src/main.cpp
 
-SRC = 	src/Parser/Parser.cpp \
-		src/Map/Map.cpp \
-		src/GameRules/GamesRules.cpp
+SRC 		= 	src/Parser/Parser.cpp \
+				src/Map/Map.cpp \
+				src/GameRules/GamesRules.cpp
 
-TEST = unit_tests
+TEST_FILES	= 	easy_win/test_easy_win.cpp	\
+
+# Tests
+TEST_NAME 	= 	unit_tests
+TEST_DIR 	= 	./tests/
+TEST 		= 	$(addprefix $(TEST_DIR), $(TEST_FILES))
+TEST_OBJ 	= 	$(TEST:.cpp=.o)
+TEST_GCNO 	= 	$(SRC:.cpp=.gcno)
+TEST_GCDA 	= 	$(SRC:.cpp=.gcda)
+TEST_FLAGS 	= 	-Wall -Wextra -Werror --coverage -lcriterion
 
 # Flags
 OBJ			=	$(SRC:.cpp=.o)
 MAIN_OBJ	=	$(MAIN:.cpp=.o)
 
+INCLUDE		= 	-I./include -I./tests
 CXXFLAGS 	= 	-std=c++20 -Wall -Wextra
 
 # Colors
@@ -36,10 +46,9 @@ CC	=	g++
 all: $(NAME)
 
 $(NAME): $(OBJ) $(MAIN_OBJ)
-	@$(CC) $(MAIN_OBJ) $(OBJ) -o $(NAME) $(CXXFLAGS) && \
+	@$(CC) $(MAIN_OBJ) $(OBJ) -o $(NAME) $(CXXFLAGS) $(INCLUDE) && \
 	$(call YELLOW,"✅ $@") || \
 	$(call YELLOW,"❌ $@")
-
 
 clean:
 	rm -f $(MAIN_OBJ) $(OBJ)
@@ -47,8 +56,12 @@ clean:
 	- rm output.log
 	- rm board.log
 
-fclean: clean
+fclean: clean tests_clean
 	@rm -f $(NAME)
+	@$(call GREEN,"✅ [$@] done !")
+
+tests_clean:
+	rm -f $(OBJ) $(TEST_OBJ) $(TEST_GCNO) $(TEST_GCDA)
 	@$(call GREEN,"✅ [$@] done !")
 
 re:	fclean all
@@ -64,3 +77,14 @@ run: $(NAME)
 	./liskvork-bin
 	rm -f liskvork-bin
 	rm -f config.ini
+
+test_obj: $(TEST_OBJ)
+
+obj: $(OBJ)
+
+tests_run: fclean
+	$(MAKE) obj CXXFLAGS+=--coverage
+	$(MAKE) test_obj CXXFLAGS="-Wall -Wextra -Werror"
+	@$(CC) -o $(TEST_NAME) $(OBJ) $(TEST_OBJ) $(TEST_FLAGS) $(INCLUDE)
+	./$(TEST_NAME)
+	gcovr --exclude tests/
