@@ -24,7 +24,7 @@
 
 #define SCORE_PERCENTAGE 10
 
-#define DEPTH 1
+#define DEPTH 3
 #define RADIUS 2
 
 enum class CellValue {
