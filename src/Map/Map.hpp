@@ -23,7 +23,7 @@
 
 #define SCORE_PERCENTAGE 10
 
-#define DEPTH 3
+#define DEPTH 1
 
 enum class CellValue {
     NONE = '.',
@@ -199,9 +199,11 @@ class Map {
          * @param playerTurn True = player 1, false = player2.
          * @param alpha Alpha value.
          * @param beta Beta value.
+         * @param x X of conditional play.
+         * @param y Y of conditional play.
          * @return int Score.
          */
-        int miniMax(int depth, bool playerTurn, int alpha, int beta);
+        int miniMax(int depth, bool playerTurn, int alpha, int beta, int x, int y);
 
         /**
          * @brief Get the Valid Moves list.

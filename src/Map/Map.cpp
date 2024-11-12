@@ -146,17 +146,17 @@ void Map::play(void)
         }
 
         if (!empty_cells.empty()) {
-            std::srand(std::time(nullptr));
-            auto [x, y] = empty_cells[std::rand() % empty_cells.size()];
+            // std::srand(std::time(nullptr));
+            // auto [x, y] = empty_cells[std::rand() % empty_cells.size()];
 
-            _map[x][y].setValue(CellValue::PLAYER1);
-            if (file.is_open())
-                file << "We've want to play on : " << x << "," << y << std::endl;
-            std::cout << x << "," << y << std::endl;
+            std::pair<int, int> move = computeTree();
+            _map[move.first][move.second].setValue(CellValue::PLAYER1);
+            // if (file.is_open())
+            //     file << "We've want to play on : " << x << "," << y << std::endl;
+            std::cout << move.first << "," << move.second << std::endl;
 
-            if (file.is_open())
-                file << "We've played on : " << x << "," << y << std::endl;
-            computeTree();
+            // if (file.is_open())
+            //     file << "We've played on : " << x << "," << y << std::endl;
             displayMap();
         }
     }
@@ -243,11 +243,9 @@ std::pair<int, int> Map::computeTree()
     int bestScore = int(-INFINITY);
     std::pair<int, int> bestMove;
 
-    int a = 0;
-
     for (auto move : getValidMoves()) {
         _map[move.first][move.second].setValue(CellValue::PLAYER1);
-        int score = miniMax(DEPTH - 1, false, int(-INFINITY), int(INFINITY));
+        int score = miniMax(DEPTH - 1, false, int(-INFINITY), int(INFINITY), move.first, move.second);
         _map[move.first][move.second].setValue(CellValue::NONE);
         if (score > bestScore) {
             bestScore = score;
@@ -257,16 +255,19 @@ std::pair<int, int> Map::computeTree()
     return bestMove;
 }
 
-int Map::miniMax(int depth, bool playerTurn, int alpha, int beta)
+int Map::miniMax(int depth, bool playerTurn, int alpha, int beta, int x, int y)
 {
-    if (depth == 0 or getValidMoves().size() == 0)
-        return 1;  // start the evaluation function
+    if (depth == 0 or getValidMoves().size() == 0) {
+        if (playerTurn)
+            return evaluation(x, y, CellValue::PLAYER2);
+        return evaluation(x, y, CellValue::PLAYER1);
+    }
 
     if (playerTurn) {
         int maxEval = int(-INFINITY);
         for (auto move : getValidMoves()) {
             _map[move.first][move.second].setValue(CellValue::PLAYER1);
-            int score = miniMax(depth - 1, false, alpha, beta);
+            int score = miniMax(depth - 1, false, alpha, beta, move.first, move.second);
             _map[move.first][move.second].setValue(CellValue::NONE);
             maxEval = std::max(maxEval, score);
             if (maxEval >= beta)
@@ -278,7 +279,7 @@ int Map::miniMax(int depth, bool playerTurn, int alpha, int beta)
         int minEval = int(INFINITY);
         for (auto move : getValidMoves()) {
             _map[move.first][move.second].setValue(CellValue::PLAYER2);
-            int score = miniMax(depth - 1, true, alpha, beta);
+            int score = miniMax(depth - 1, true, alpha, beta, move.first, move.second);
             _map[move.first][move.second].setValue(CellValue::NONE);
             minEval = std::min(minEval, score);
             if (alpha >= minEval)
