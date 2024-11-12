@@ -15,8 +15,8 @@ class MiniMax:
 
     def __init__(self):
         pass
-
-    def get_valid_moves(self, map : Map):
+        
+    def get_valid_moves(self, map : Map) -> list[(int, int)]:
         moves : list[(int, int)] = []
         for x in range(map.size):
             for y in range(map.size):
