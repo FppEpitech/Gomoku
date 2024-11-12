@@ -264,7 +264,7 @@ std::pair<int, int> Map::computeTree()
 
 int Map::miniMax(int depth, bool playerTurn, int alpha, int beta, int x, int y, std::vector<std::pair<int, int>> moves)
 {
-    if (depth == 0 or getValidMoves(RADIUS).size() == 0) {
+    if (depth == 0 or moves.size() == 0) {
         if (playerTurn)
             return evaluation(x, y, CellValue::PLAYER2);
         return evaluation(x, y, CellValue::PLAYER1);
