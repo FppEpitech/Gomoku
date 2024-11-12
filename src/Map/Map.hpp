@@ -5,8 +5,10 @@
 ** Map
 */
 
+#include <set>
 #include <ctime>
 #include <vector>
+#include <limits>
 #include <string>
 #include <fstream>
 #include <optional>
@@ -16,6 +18,7 @@
 #define VERTICAL 1, 1
 #define DIAGONAL_RIGHT 1, 0
 #define DIAGONAL_LEFT 1, -1
+#define DEPTH 3
 
 #pragma once
 
@@ -101,6 +104,12 @@ class Map {
          *
          */
         void play(void);
+
+        double minimax(int depth, bool playerTurn, double alpha, double beta);
+
+        std::pair<int, int> findBestMove();
+
+        std::vector<std::pair<int, int>> getCandidateMoves(int radius = 2);
 
     private:
 

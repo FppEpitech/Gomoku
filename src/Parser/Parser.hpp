@@ -18,6 +18,9 @@
 #include "../Map/Map.hpp"
 #include "../GameRules/GameRules.hpp"
 
+#define MIDDLE_X 10
+#define MIDDLE_Y 10
+
 class Parser {
 
     public:
