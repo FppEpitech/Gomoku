@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include <set>
 #include <list>
 #include <ctime>
 #include <cmath>
@@ -24,6 +25,7 @@
 #define SCORE_PERCENTAGE 10
 
 #define DEPTH 1
+#define RADIUS 2
 
 enum class CellValue {
     NONE = '.',
@@ -201,16 +203,18 @@ class Map {
          * @param beta Beta value.
          * @param x X of conditional play.
          * @param y Y of conditional play.
+         * @param moves List of available moves.
          * @return int Score.
          */
-        int miniMax(int depth, bool playerTurn, int alpha, int beta, int x, int y);
+        int miniMax(int depth, bool playerTurn, int alpha, int beta, int x, int y, std::vector<std::pair<int, int>> moves);
 
         /**
          * @brief Get the Valid Moves list.
          *
-         * @return std::list<std::pair<int, int>> List of valid moves.
+         * @param radius Radius arround played moves.
+         * @return std::vector<std::pair<int, int>> List of valid moves.
          */
-        std::list<std::pair<int, int>> getValidMoves();
+        std::vector<std::pair<int, int>> getValidMoves(int radius);
 
         std::size_t _size;                       // Size of map.
         std::vector<std::vector<Cell>> _map;     // Map where play.
