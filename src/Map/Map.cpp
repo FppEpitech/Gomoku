@@ -154,10 +154,9 @@ void Map::play(void)
                 file << "We've want to play on : " << x << "," << y << std::endl;
             std::cout << x << "," << y << std::endl;
 
-            if (file.is_open()) {
+            if (file.is_open())
                 file << "We've played on : " << x << "," << y << std::endl;
-                file << "score = " << evaluation(x, y, CellValue::PLAYER1) << std::endl;
-            }
+            computeTree();
             displayMap();
         }
     }
@@ -225,4 +224,67 @@ int Map::evaluation(int x, int y, CellValue player)
     score = evaluateLine(x, y, player, DIAGONAL_LEFT, score);
     score = evaluateLine(x, y, player, VERTICAL, score);
     return score;
+}
+
+std::list<std::pair<int, int>> Map::getValidMoves()
+{
+    std::list<std::pair<int, int>> moves;
+    for (std::size_t x = 0; x < _map.size(); x++) {
+        for (std::size_t y = 0; y < _map[x].size(); y++) {
+            if (_map[x][y].getValue() == CellValue::NONE)
+                moves.push_back({x, y});
+        }
+    }
+    return moves;
+}
+
+std::pair<int, int> Map::computeTree()
+{
+    int bestScore = int(-INFINITY);
+    std::pair<int, int> bestMove;
+
+    int a = 0;
+
+    for (auto move : getValidMoves()) {
+        _map[move.first][move.second].setValue(CellValue::PLAYER1);
+        int score = miniMax(DEPTH - 1, false, int(-INFINITY), int(INFINITY));
+        _map[move.first][move.second].setValue(CellValue::NONE);
+        if (score > bestScore) {
+            bestScore = score;
+            bestMove = move;
+        }
+    }
+    return bestMove;
+}
+
+int Map::miniMax(int depth, bool playerTurn, int alpha, int beta)
+{
+    if (depth == 0 or getValidMoves().size() == 0)
+        return 1;  // start the evaluation function
+
+    if (playerTurn) {
+        int maxEval = int(-INFINITY);
+        for (auto move : getValidMoves()) {
+            _map[move.first][move.second].setValue(CellValue::PLAYER1);
+            int score = miniMax(depth - 1, false, alpha, beta);
+            _map[move.first][move.second].setValue(CellValue::NONE);
+            maxEval = std::max(maxEval, score);
+            if (maxEval >= beta)
+                return maxEval;
+            alpha = std::max(alpha, score);
+        }
+        return maxEval;
+    } else {
+        int minEval = int(INFINITY);
+        for (auto move : getValidMoves()) {
+            _map[move.first][move.second].setValue(CellValue::PLAYER2);
+            int score = miniMax(depth - 1, true, alpha, beta);
+            _map[move.first][move.second].setValue(CellValue::NONE);
+            minEval = std::min(minEval, score);
+            if (alpha >= minEval)
+                return minEval;
+            beta = std::min(beta, score);
+        }
+        return minEval;
+    }
 }
