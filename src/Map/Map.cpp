@@ -76,6 +76,7 @@ void Map::play(void)
     auto winningMove = _canAlignNbPawns(CellValue::PLAYER1, PAWNS_TO_WIN);
     auto avoidLoose = _canAlignNbPawns(CellValue::PLAYER2, PAWNS_TO_WIN);
     auto winningPattern = _checkForWinPattern(CellValue::PLAYER1);
+    auto avoidwinningPattern = _checkForWinPattern(CellValue::PLAYER2);
     auto avoidLineFour = _canAlignNbPawns(CellValue::PLAYER2, PAWNS_FOUR);
     std::ofstream file("output.log", std::ios_base::app);
 
@@ -94,6 +95,11 @@ void Map::play(void)
                 file << "Wining patern move : " << winningPattern->first << "," << winningPattern->second << std::endl;
         std::cout << winningPattern->first << "," << winningPattern->second << std::endl;
         _map[winningPattern->first][winningPattern->second].setValue(CellValue::PLAYER1);
+    } else if (avoidwinningPattern) {
+        if (file.is_open())
+                file << "Avoid wining patern move : " << avoidwinningPattern->first << "," << avoidwinningPattern->second << std::endl;
+        std::cout << avoidwinningPattern->first << "," << avoidwinningPattern->second << std::endl;
+        _map[avoidwinningPattern->first][avoidwinningPattern->second].setValue(CellValue::PLAYER1);
     } else if (avoidLineFour) {
         if (file.is_open())
                 file << "Avoid Line of Four loosing move : " << avoidLineFour->first << "," << avoidLineFour->second << std::endl;

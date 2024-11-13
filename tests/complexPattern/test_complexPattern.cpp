@@ -129,6 +129,16 @@ std::vector<std::vector<int>> BOARD_COMPLEX_PATTERN_WIN11 = {
 };
 std::string BOARD_COMPLEX_PATTERN_ANSWER_11 = "1,1\n";
 
+std::vector<std::vector<int>> BOARD_COMPLEX_PATTERN_WIN12 = {
+    {0, 0, 0, 0, 0, 0},
+    {0, 2, 0, 0, 0, 0},
+    {0, 0, 2, 0, 0, 0},
+    {0, 0, 0, 2, 0, 0},
+    {0, 2, 2, 2, 0, 0},
+    {0, 0, 0, 0, 0, 0}
+};
+std::string BOARD_COMPLEX_PATTERN_ANSWER_12 = "4,4\n";
+
 std::vector<std::vector<std::vector<int>>> boards = {
     BOARD_COMPLEX_PATTERN_WIN1,
     BOARD_COMPLEX_PATTERN_WIN2,
@@ -140,7 +150,8 @@ std::vector<std::vector<std::vector<int>>> boards = {
     BOARD_COMPLEX_PATTERN_WIN8,
     BOARD_COMPLEX_PATTERN_WIN9,
     BOARD_COMPLEX_PATTERN_WIN10,
-    BOARD_COMPLEX_PATTERN_WIN11
+    BOARD_COMPLEX_PATTERN_WIN11,
+    BOARD_COMPLEX_PATTERN_WIN12
 };
 
 std::vector<std::string> answers = {
@@ -154,7 +165,8 @@ std::vector<std::string> answers = {
     BOARD_COMPLEX_PATTERN_ANSWER_8,
     BOARD_COMPLEX_PATTERN_ANSWER_9,
     BOARD_COMPLEX_PATTERN_ANSWER_10,
-    BOARD_COMPLEX_PATTERN_ANSWER_11
+    BOARD_COMPLEX_PATTERN_ANSWER_11,
+    BOARD_COMPLEX_PATTERN_ANSWER_12
 };
 
 void createMap(std::string file, std::vector<std::vector<int>> board, int size)
@@ -385,6 +397,26 @@ Test(ComplexPatterns, test_complex_patterns11, .timeout = 5, .init = redirect_al
     int size = boards[i].size();
     map.createMap(size);
     std::string path = "test_complex_pattern11.txt";
+    createMap(path, boards[i], size);
+    FILE *input_redirected = freopen(path.c_str(), "r", stdin);
+    if (!input_redirected)
+        cr_assert_fail("Failed to redirect stdin to file");
+    parser.parseCommand("BOARD", map, gameRules);
+    fclose(input_redirected);
+    remove(path.c_str());
+    cr_assert_stdout_eq_str(answers[i].c_str());
+}
+
+Test(ComplexPatterns, test_complex_patterns12, .timeout = 5, .init = redirect_all_std_complex_pattern)
+{
+    Parser parser;
+    GameRules gameRules;
+    int i = 11;
+
+    Map map;
+    int size = boards[i].size();
+    map.createMap(size);
+    std::string path = "test_complex_pattern12.txt";
     createMap(path, boards[i], size);
     FILE *input_redirected = freopen(path.c_str(), "r", stdin);
     if (!input_redirected)
