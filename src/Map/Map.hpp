@@ -7,7 +7,10 @@
 
 #pragma once
 
+#include <set>
+#include <list>
 #include <ctime>
+#include <cmath>
 #include <vector>
 #include <string>
 #include <fstream>
@@ -20,6 +23,12 @@
 #define DIAGONAL_LEFT 1, -1
 
 #define SCORE_PERCENTAGE 10
+
+#define DEPTH 3
+#define RADIUS 2
+
+#define PAWNS_TO_WIN 5
+#define PAWNS_FOUR 4
 
 enum class CellValue {
     NONE = '.',
@@ -131,11 +140,12 @@ class Map {
     private:
 
         /**
-         * @brief Check if the player can win.
+         * @brief Check if the player can align X pawns.
          *
          * @param player Player to check.
+         * @param nbPawns Nb Pawns to check if the player can align
          */
-        std::optional<std::pair<int, int>> _canWin(CellValue player);
+        std::optional<std::pair<int, int>> _canAlignNbPawns(CellValue player, int nbPawns);
 
         /**
          * @brief Check the conditional play.
@@ -143,8 +153,9 @@ class Map {
          * @param x X of conditional play.
          * @param y Y of conditional play.
          * @param player Player to check.
+         * @param nbPawns Nb Pawns to check if the player can align
          */
-        bool _checkWin(int x, int y, CellValue player);
+        bool _checkWin(int x, int y, CellValue player, int nbPawns);
 
         /**
          * @brief Check all direction of conditional play.
@@ -154,8 +165,9 @@ class Map {
          * @param player Player to check.
          * @param dx Direction in X.
          * @param dy Direction in Y
+         * @param nbPawns Nb Pawns to check if the player can align
          */
-        bool _checkDirection(int x, int y, CellValue player, int dx, int dy);
+        bool _checkDirection(int x, int y, CellValue player, int dx, int dy, int nbPawns);
 
         /**
          * @brief Check all direction of conditional play.
@@ -180,6 +192,35 @@ class Map {
          * @return std::pair<int, int> first is values before space, second is value after space.
          */
         std::pair<int, int> _countInDirectionEvaluation(int x, int y, CellValue player, int dx, int dy);
+
+        /**
+         * @brief Compute the tree with minimax.
+         *
+         * @return std::pair<int, int> Position to play.
+         */
+        std::pair<int, int> computeTree();
+
+        /**
+         * @brief Minimax algorithm.
+         *
+         * @param depth Depth to visualize.
+         * @param playerTurn True = player 1, false = player2.
+         * @param alpha Alpha value.
+         * @param beta Beta value.
+         * @param x X of conditional play.
+         * @param y Y of conditional play.
+         * @param moves List of available moves.
+         * @return int Score.
+         */
+        int miniMax(int depth, bool playerTurn, int alpha, int beta, int x, int y, std::vector<std::pair<int, int>> moves);
+
+        /**
+         * @brief Get the Valid Moves list.
+         *
+         * @param radius Radius arround played moves.
+         * @return std::vector<std::pair<int, int>> List of valid moves.
+         */
+        std::vector<std::pair<int, int>> getValidMoves(int radius);
 
         std::size_t _size;                       // Size of map.
         std::vector<std::vector<Cell>> _map;     // Map where play.

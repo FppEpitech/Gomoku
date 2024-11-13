@@ -71,59 +71,11 @@ void Map::displayMap(void)
     file.close();
 }
 
-std::optional<std::pair<int, int>> Map::_canWin(CellValue player)
-{
-    for (int x = 0; x < (int)_size; ++x)
-        for (int y = 0; y < (int)_size; ++y)
-            if (_map[x][y].getValue() == CellValue::NONE)
-                if (_checkWin(x, y, player))
-                    return std::make_pair(x, y);
-    return std::nullopt;
-}
-
-bool Map::_checkWin(int x, int y, CellValue player)
-{
-    _map[x][y].setValue(player);
-    bool win = (_checkDirection(x, y, player, HORIZONTAL) ||
-                _checkDirection(x, y, player, VERTICAL) ||
-                _checkDirection(x, y, player, DIAGONAL_RIGHT) ||
-                _checkDirection(x, y, player, DIAGONAL_LEFT));
-    _map[x][y].setValue(CellValue::NONE);
-    return win;
-}
-
-bool Map::_checkDirection(int x, int y, CellValue player, int dx, int dy)
-{
-    int count = 1;
-
-    count += _countInDirection(x, y, player, dx, dy);
-    count += _countInDirection(x, y, player, -dx, -dy);
-    return count >= 5;
-}
-
-int Map::_countInDirection(int x, int y, CellValue player, int dx, int dy)
-{
-    int count = 0;
-
-    while (true) {
-        x += dx;
-        y += dy;
-        if (x >= 0 && x < (int)_size && y >= 0 && y < (int)_size) {
-            if (_map[x][y].getValue() == player)
-                ++count;
-            else
-                break;
-        } else {
-            break;
-        }
-    }
-    return count;
-}
-
 void Map::play(void)
 {
-    auto winningMove = _canWin(CellValue::PLAYER1);
-    auto avoidLose = _canWin(CellValue::PLAYER2);
+    auto winningMove = _canAlignNbPawns(CellValue::PLAYER1, PAWNS_TO_WIN);
+    auto avoidLoose = _canAlignNbPawns(CellValue::PLAYER2, PAWNS_TO_WIN);
+    auto avoidLineFour = _canAlignNbPawns(CellValue::PLAYER2, PAWNS_FOUR);
     std::ofstream file("output.log", std::ios_base::app);
 
     if (winningMove) {
@@ -131,11 +83,16 @@ void Map::play(void)
                 file << "Winning move : " << winningMove->first << "," << winningMove->second << std::endl;
         std::cout << winningMove->first << "," << winningMove->second << std::endl;
         _map[winningMove->first][winningMove->second].setValue(CellValue::PLAYER1);
-    } else if (avoidLose) {
+    } else if (avoidLoose) {
         if (file.is_open())
-                file << "Avoid loosing move : " << avoidLose->first << "," << avoidLose->second << std::endl;
-        std::cout << avoidLose->first << "," << avoidLose->second << std::endl;
-        _map[avoidLose->first][avoidLose->second].setValue(CellValue::PLAYER1);
+                file << "Avoid loosing move : " << avoidLoose->first << "," << avoidLoose->second << std::endl;
+        std::cout << avoidLoose->first << "," << avoidLoose->second << std::endl;
+        _map[avoidLoose->first][avoidLoose->second].setValue(CellValue::PLAYER1);
+    } else if (avoidLineFour) {
+        if (file.is_open())
+                file << "Avoid Line of Four loosing move : " << avoidLineFour->first << "," << avoidLineFour->second << std::endl;
+        std::cout << avoidLineFour->first << "," << avoidLineFour->second << std::endl;
+        _map[avoidLineFour->first][avoidLineFour->second].setValue(CellValue::PLAYER1);
     } else {
         std::vector<std::pair<int, int>> empty_cells;
         for (int x = 0; x < (int)_size; ++x) {
@@ -146,18 +103,11 @@ void Map::play(void)
         }
 
         if (!empty_cells.empty()) {
-            std::srand(std::time(nullptr));
-            auto [x, y] = empty_cells[std::rand() % empty_cells.size()];
-
-            _map[x][y].setValue(CellValue::PLAYER1);
+            std::pair<int, int> move = computeTree();
+            _map[move.first][move.second].setValue(CellValue::PLAYER1);
+            std::cout << move.first << "," << move.second << std::endl;
             if (file.is_open())
-                file << "We've want to play on : " << x << "," << y << std::endl;
-            std::cout << x << "," << y << std::endl;
-
-            if (file.is_open()) {
-                file << "We've played on : " << x << "," << y << std::endl;
-                file << "score = " << evaluation(x, y, CellValue::PLAYER1) << std::endl;
-            }
+                file << "We've played on : " << move.first << "," << move.second << std::endl;
             displayMap();
         }
     }
@@ -225,4 +175,86 @@ int Map::evaluation(int x, int y, CellValue player)
     score = evaluateLine(x, y, player, DIAGONAL_LEFT, score);
     score = evaluateLine(x, y, player, VERTICAL, score);
     return score;
+}
+
+std::vector<std::pair<int, int>> Map::getValidMoves(int radius) {
+    std::set<std::pair<int, int>> candidates;
+
+    for (std::size_t x = 0; x < _size; ++x) {
+        for (std::size_t y = 0; y < _size; ++y) {
+            if (_map[x][y].getValue() != CellValue::NONE) {
+                for (int dx = -radius; dx <= radius; ++dx) {
+                    for (int dy = -radius; dy <= radius; ++dy) {
+                        int nx = x + dx;
+                        int ny = y + dy;
+                        if (nx >= 0 && nx < (int)_size && ny >= 0 && ny < (int)_size && _map[nx][ny].getValue() == CellValue::NONE) {
+                            candidates.emplace(nx, ny);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return std::vector<std::pair<int, int>>(candidates.begin(), candidates.end());
+}
+
+std::pair<int, int> Map::computeTree()
+{
+    int bestScore = int(-INFINITY);
+    std::pair<int, int> bestMove;
+    std::vector<std::pair<int, int>> moves = getValidMoves(RADIUS);
+    std::vector<std::pair<int, int>> reducedMoves;
+
+    for (std::size_t i = 0; i < moves.size(); i++) {
+        _map[moves[i].first][moves[i].second].setValue(CellValue::PLAYER1);
+        reducedMoves = moves;
+        reducedMoves.erase(reducedMoves.begin() + i);
+        int score = miniMax(DEPTH - 1, false, int(-INFINITY), int(INFINITY), moves[i].first, moves[i].second, reducedMoves);
+        _map[moves[i].first][moves[i].second].setValue(CellValue::NONE);
+        if (score > bestScore) {
+            bestScore = score;
+            bestMove = moves[i];
+        }
+    }
+    return bestMove;
+}
+
+int Map::miniMax(int depth, bool playerTurn, int alpha, int beta, int x, int y, std::vector<std::pair<int, int>> moves)
+{
+    if (depth == 0 or moves.size() == 0) {
+        if (playerTurn)
+            return evaluation(x, y, CellValue::PLAYER2);
+        return evaluation(x, y, CellValue::PLAYER1);
+    }
+
+    std::vector<std::pair<int, int>> reducedMoves;
+    if (playerTurn) {
+        int maxEval = int(-INFINITY);
+        for (std::size_t i = 0; i < moves.size(); i++) {
+            _map[moves[i].first][moves[i].second].setValue(CellValue::PLAYER1);
+            reducedMoves = moves;
+            reducedMoves.erase(reducedMoves.begin() + i);
+            int score = miniMax(depth - 1, false, alpha, beta, moves[i].first, moves[i].second, reducedMoves);
+            _map[moves[i].first][moves[i].second].setValue(CellValue::NONE);
+            maxEval = std::max(maxEval, score);
+            if (maxEval >= beta)
+                return maxEval;
+            alpha = std::max(alpha, score);
+        }
+        return maxEval;
+    } else {
+        int minEval = int(INFINITY);
+        for (std::size_t i = 0; i < moves.size(); i++) {
+            _map[moves[i].first][moves[i].second].setValue(CellValue::PLAYER2);
+            reducedMoves = moves;
+            reducedMoves.erase(reducedMoves.begin() + i);
+            int score = miniMax(depth - 1, true, alpha, beta, moves[i].first, moves[i].second, reducedMoves);
+            _map[moves[i].first][moves[i].second].setValue(CellValue::NONE);
+            minEval = std::min(minEval, score);
+            if (alpha >= minEval)
+                return minEval;
+            beta = std::min(beta, score);
+        }
+        return minEval;
+    }
 }

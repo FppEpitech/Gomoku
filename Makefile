@@ -12,9 +12,20 @@ MAIN = src/main.cpp
 
 SRC = 	src/Parser/Parser.cpp \
 		src/Map/Map.cpp \
+		src/Map/canAlign.cpp \
 		src/GameRules/GamesRules.cpp
 
-TEST = unit_tests
+TEST_FILES	= 	easy_win/test_easy_win.cpp \
+				avoid_lose/test_avoid_loose.cpp
+
+# Tests
+TEST_NAME 	= 	unit_tests
+TEST_DIR 	= 	./tests/
+TEST 		= 	$(addprefix $(TEST_DIR), $(TEST_FILES))
+TEST_OBJ 	= 	$(TEST:.cpp=.o)
+TEST_GCNO 	= 	$(SRC:.cpp=.gcno)
+TEST_GCDA 	= 	$(SRC:.cpp=.gcda)
+TEST_FLAGS 	= 	-Wall -Wextra -Werror --coverage -lcriterion
 
 # Flags
 OBJ			=	$(SRC:.cpp=.o)
@@ -47,9 +58,25 @@ clean:
 	- rm output.log
 	- rm board.log
 
-fclean: clean
+obj: $(OBJ)
+
+test_obj: $(TEST_OBJ)
+
+fclean: clean tests_clean
 	@rm -f $(NAME)
 	@$(call GREEN,"✅ [$@] done !")
+
+tests_clean:
+	- rm ${TEST_NAME}
+	- rm -f $(OBJ) $(TEST_OBJ) $(TEST_GCNO) $(TEST_GCDA)
+	@$(call GREEN,"✅ [$@] done !")
+
+tests_run: fclean
+	$(MAKE) obj CXXFLAGS+=--coverage
+	$(MAKE) test_obj CXXFLAGS="-Wall -Wextra -Werror"
+	@$(CC) -o $(TEST_NAME) $(OBJ) $(TEST_OBJ) $(TEST_FLAGS) $(INCLUDE)
+	./$(TEST_NAME)
+	gcovr --exclude tests/
 
 re:	fclean all
 
