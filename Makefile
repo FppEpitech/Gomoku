@@ -13,10 +13,12 @@ MAIN = src/main.cpp
 SRC = 	src/Parser/Parser.cpp \
 		src/Map/Map.cpp \
 		src/Map/canAlign.cpp \
+		src/Map/winPatterns.cpp \
 		src/GameRules/GamesRules.cpp
 
 TEST_FILES	= 	easy_win/test_easy_win.cpp \
-				avoid_lose/test_avoid_loose.cpp
+				avoid_lose/test_avoid_loose.cpp \
+				complexPattern/test_complexPattern.cpp \
 
 # Tests
 TEST_NAME 	= 	unit_tests
