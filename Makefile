@@ -19,6 +19,7 @@ SRC = 	src/Parser/Parser.cpp \
 TEST_FILES	= 	easy_win/test_easy_win.cpp \
 				avoid_lose/test_avoid_loose.cpp \
 				complexPattern/test_complexPattern.cpp \
+				createComplexPattern/test_createComplexPattern.cpp \
 
 # Tests
 TEST_NAME 	= 	unit_tests
