@@ -1,5 +1,9 @@
 name: Mirroring
 
+on:
+  push:
+    branches: '**'
+
 jobs:
   check_program:
     name: Check program
