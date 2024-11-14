@@ -16,6 +16,7 @@
 #include <fstream>
 #include <optional>
 #include <iostream>
+#include <memory>
 
 #define HORIZONTAL 0, 1
 #define VERTICAL 1, 1
@@ -35,6 +36,8 @@ enum class CellValue {
     PLAYER1 = 'O',
     PLAYER2 = 'X'
 };
+
+class Algorithm;
 
 class Cell {
 
@@ -203,4 +206,5 @@ class Map {
 
         std::size_t _size;                       // Size of map.
         std::vector<std::vector<Cell>> _map;     // Map where play.
+        std::shared_ptr<Algorithm> _algo;   // Algorithm to play.
 };

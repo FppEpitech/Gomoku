@@ -7,6 +7,7 @@
 
 #include "Map.hpp"
 #include "Algorithms/Algorithm.hpp"
+#include <memory>
 
 Cell::Cell(void)
 {
@@ -26,6 +27,7 @@ CellValue Cell::getValue(void) const
 Map::Map(void)
 {
     _size = 0;
+    _algo = std::make_shared<Algorithm>(_size, _map);
 }
 
 void Map::setSize(std::size_t size)
