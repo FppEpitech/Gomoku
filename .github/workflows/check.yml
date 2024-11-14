@@ -19,4 +19,4 @@ jobs:
           make
       - name: Run tests
         run: |
-          make tests_run
+          make ; make tests_run
