@@ -16,7 +16,7 @@ jobs:
           fetch-depth: 0
       - name: Install criterion
         run: |
-          sudo apt-get install libcriterion-dev
+          sudo apt-get install libcriterion-dev -y
       - name: Check program
         run: |
           make
