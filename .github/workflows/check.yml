@@ -23,9 +23,8 @@ jobs:
       - name: Run tests
         run: |
           make ; make tests_run
-
-  name: Fight against basic ai
-    run: |
-      make
-      make run > output-fight.log
-      if ! grep -q "Player 1 wins" output-fight.log; then exit 1; fi
+     - name: Fight against basic ai
+        run: |
+          make
+          make run > output-fight.log
+          if ! grep -q "Player 1 wins" output-fight.log; then exit 1; fi
