@@ -81,8 +81,8 @@ tests_clean:
 	@$(call GREEN,"✅ [$@] done !")
 
 tests_run: fclean
-	$(MAKE) obj CXXFLAGS+=--coverage
-	$(MAKE) test_obj CXXFLAGS="-Wall -Wextra -Werror"
+	$(MAKE) obj CXXFLAGS+="--coverage $(INCLUDE)"
+	$(MAKE) test_obj CXXFLAGS="-Wall -Wextra -Werror $(INCLUDE)"
 	@$(CC) -o $(TEST_NAME) $(OBJ) $(TEST_OBJ) $(TEST_FLAGS) $(INCLUDE)
 	./$(TEST_NAME)
 	gcovr --exclude tests/
