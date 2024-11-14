@@ -14,7 +14,12 @@ SRC = 	src/Parser/Parser.cpp \
 		src/Map/Map.cpp \
 		src/Map/canAlign.cpp \
 		src/Map/winPatterns.cpp \
-		src/GameRules/GamesRules.cpp
+		src/GameRules/GamesRules.cpp \
+		src/Algorithms/Algorithm.cpp \
+		src/Algorithms/miniMax.cpp \
+		src/Algorithms/evaluation.cpp \
+
+
 
 TEST_FILES	= 	easy_win/test_easy_win.cpp \
 				avoid_lose/test_avoid_loose.cpp \
@@ -30,11 +35,13 @@ TEST_GCNO 	= 	$(SRC:.cpp=.gcno)
 TEST_GCDA 	= 	$(SRC:.cpp=.gcda)
 TEST_FLAGS 	= 	-Wall -Wextra -Werror --coverage -lcriterion
 
+
 # Flags
 OBJ			=	$(SRC:.cpp=.o)
 MAIN_OBJ	=	$(MAIN:.cpp=.o)
+INCLUDE = -I./src
 
-CXXFLAGS 	= 	-std=c++20 -Wall -Wextra
+CXXFLAGS 	= 	-std=c++20 -Wall -Wextra $(INCLUDE)
 
 # Colors
 YELLOW 		= 	/bin/echo -e "\x1b[33m $1\x1b[0m"
@@ -75,8 +82,8 @@ tests_clean:
 	@$(call GREEN,"✅ [$@] done !")
 
 tests_run: fclean
-	$(MAKE) obj CXXFLAGS+=--coverage
-	$(MAKE) test_obj CXXFLAGS="-Wall -Wextra -Werror"
+	$(MAKE) obj CXXFLAGS+="--coverage $(INCLUDE)"
+	$(MAKE) test_obj CXXFLAGS="-Wall -Wextra -Werror $(INCLUDE)"
 	@$(CC) -o $(TEST_NAME) $(OBJ) $(TEST_OBJ) $(TEST_FLAGS) $(INCLUDE)
 	./$(TEST_NAME)
 	gcovr --exclude tests/

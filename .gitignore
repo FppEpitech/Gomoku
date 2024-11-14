@@ -169,3 +169,8 @@ pbrain-gomoku-ai
 
 # C++
 *.o
+
+#utests
+*.gcda
+*.gcno
+unit_tests
