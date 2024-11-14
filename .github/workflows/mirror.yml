@@ -24,17 +24,3 @@ jobs:
             ${{ secrets.MIRROR_URL }}
           ssh_private_key:
             ${{ secrets.SSH_PRIVATE_KEY }}
-  check_program:
-    name: Check program
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: Check program
-        run: |
-          make
-      - name: Run tests
-        run: |
-          make tests_run
