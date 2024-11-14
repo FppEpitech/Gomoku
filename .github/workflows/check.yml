@@ -24,8 +24,8 @@ jobs:
         run: |
           make ; make tests_run
 
-      # name: Fight against basic ai
-      #   run: |
-      #     make
-      #     make run > output-fight.log
-      #     exit (cat output-fight | grep -c "Player 1 wins") # must check better
+    name: Fight against basic ai
+      run: |
+        make
+        make run > output-fight.log
+        if ! grep -q "Player 1 wins" output-fight.log; then exit 1; fi
