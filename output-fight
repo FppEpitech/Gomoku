@@ -1,7 +1,0 @@
-[33m 🆗 src/main.cpp[0m
-[33m ❌ pbrain-gomoku-ai[0m
-cp tests/liskvork-bin ./
-cp tests/config.ini ./
-./liskvork-bin
-@ts=1731605323666 @l=INFO @ctx="Launching liskvork" version=0.0.0-dev
-@ts=1731605323666 @l=FATAL @ctx="Could not find brain executable" filepath=./pbrain-gomoku-ai
