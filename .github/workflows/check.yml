@@ -23,7 +23,7 @@ jobs:
       - name: Run tests
         run: |
           make ; make tests_run
-     - name: Fight against basic ai
+      - name: Fight against basic ai
         run: |
           make
           make run > output-fight.log
