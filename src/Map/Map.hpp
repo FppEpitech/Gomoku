@@ -113,30 +113,6 @@ class Map {
          */
         void play(void);
 
-        /**
-         * @brief This method evaluate the placement of a point
-         * on the map and return it score.
-         *
-         * @param x X of conditional play.
-         * @param y Y of conditional play.
-         * @param player Player to check.
-         * @return int Score of the evaluation.
-         */
-        int evaluation(int x, int y, CellValue player);
-
-        /**
-         * @brief Evaluate the score of a line.
-         *
-         * @param x X of conditional play.
-         * @param y Y of conditional play.
-         * @param player Player to check.
-         * @param vx Direction in X.
-         * @param vy Direction in Y.
-         * @param scoreMax Score max of the current point.
-         * @return std::size_t Return the Score max.
-         */
-        std::size_t evaluateLine(int x, int y, CellValue player, int vx, int vy, std::size_t scoreMax);
-
     private:
 
         /**
@@ -179,48 +155,6 @@ class Map {
          * @param dy Direction in Y.
          */
         int _countInDirection(int x, int y, CellValue player, int dx, int dy);
-
-        /**
-         * @brief Check all direction of conditional play.
-         * This function is used by the evaluation method.
-         *
-         * @param x X of conditional play.
-         * @param y Y of conditional play.
-         * @param player Player to check.
-         * @param dx Direction in X.
-         * @param dy Direction in Y.
-         * @return std::pair<int, int> first is values before space, second is value after space.
-         */
-        std::pair<int, int> _countInDirectionEvaluation(int x, int y, CellValue player, int dx, int dy);
-
-        /**
-         * @brief Compute the tree with minimax.
-         *
-         * @return std::pair<int, int> Position to play.
-         */
-        std::pair<int, int> computeTree();
-
-        /**
-         * @brief Minimax algorithm.
-         *
-         * @param depth Depth to visualize.
-         * @param playerTurn True = player 1, false = player2.
-         * @param alpha Alpha value.
-         * @param beta Beta value.
-         * @param x X of conditional play.
-         * @param y Y of conditional play.
-         * @param moves List of available moves.
-         * @return int Score.
-         */
-        int miniMax(int depth, bool playerTurn, int alpha, int beta, int x, int y, std::vector<std::pair<int, int>> moves);
-
-        /**
-         * @brief Get the Valid Moves list.
-         *
-         * @param radius Radius arround played moves.
-         * @return std::vector<std::pair<int, int>> List of valid moves.
-         */
-        std::vector<std::pair<int, int>> getValidMoves(int radius);
 
         /**
          * @brief Check if there is a winning pattern.
