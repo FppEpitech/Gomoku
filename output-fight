@@ -1,0 +1,10 @@
+cp tests/liskvork-bin ./
+cp tests/config.ini ./
+./liskvork-bin
+@ts=1731605899659 @l=INFO @ctx="Launching liskvork" version=0.0.0-dev
+@ts=1731605899662 @l=INFO @ctx="Finished initialization" name=SomeBrain author=FPP version=1.0 country=FR
+@ts=1731605899665 @l=INFO @ctx="Finished initialization" name=SomeBrain author=FPP version=1.0 country=FR
+@ts=1731605900807 @l=INFO @ctx="Player 1 wins!"
+@ts=1731605902808 @l=INFO @ctx="Closing liskvork" uptime="00:00:03.153"
+rm -f liskvork-bin
+rm -f config.ini

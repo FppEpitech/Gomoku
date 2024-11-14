@@ -16,10 +16,16 @@ jobs:
           fetch-depth: 0
       - name: Install criterion
         run: |
-          sudo apt-get install libcriterion-dev -y
+          sudo apt-get install libcriterion-dev gcovr -y
       - name: Check program
         run: |
           make
       - name: Run tests
         run: |
           make ; make tests_run
+
+      # name: Fight against basic ai
+      #   run: |
+      #     make
+      #     make run > output-fight.log
+      #     exit (cat output-fight | grep -c "Player 1 wins") # must check better
