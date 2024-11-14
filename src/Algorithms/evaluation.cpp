@@ -1,3 +1,10 @@
+/*
+** EPITECH PROJECT, 2024
+** Gomoku
+** File description:
+** evaluation
+*/
+
 #include "Algorithms/Algorithm.hpp"
 #include "Map/Map.hpp"
 

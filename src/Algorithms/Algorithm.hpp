@@ -20,7 +20,7 @@ class Algorithm {
          *
          * @return std::pair<int, int> Position to play.
          */
-        std::pair<int, int> computeTree();
+        std::pair<int, int> miniMax();
 
         /**
          * @brief Minimax algorithm.
@@ -34,7 +34,7 @@ class Algorithm {
          * @param moves List of available moves.
          * @return int Score.
          */
-        int miniMax(int depth, bool playerTurn, int alpha, int beta, int x, int y, std::vector<std::pair<int, int>> moves);
+        int computeMiniMax(int depth, bool playerTurn, int alpha, int beta, int x, int y, std::vector<std::pair<int, int>> moves);
 
         /**
          * @brief Get the Valid Moves list.

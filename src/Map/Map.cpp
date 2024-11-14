@@ -119,7 +119,7 @@ void Map::play(void)
 
         if (!empty_cells.empty()) {
             Algorithm algo(_size, _map);
-            std::pair<int, int> move = algo.computeTree();
+            std::pair<int, int> move = algo.miniMax();
             _map[move.first][move.second].setValue(CellValue::PLAYER1);
             std::cout << move.first << "," << move.second << std::endl;
             if (file.is_open())
