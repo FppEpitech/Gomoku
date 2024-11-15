@@ -1,4 +1,4 @@
-name: Checks
+name: Fights
 
 on:
   push:
@@ -14,12 +14,8 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Install criterion
-        run: |
-          sudo apt-get install libcriterion-dev gcovr -y
-      - name: Check program
+      - name: Fight against basic ai
         run: |
           make
-      - name: Run tests
-        run: |
-          make ; make tests_run
+          make run > output-fight.log
+          if ! grep -q "Player 1 wins" output-fight.log; then exit 1; fi
