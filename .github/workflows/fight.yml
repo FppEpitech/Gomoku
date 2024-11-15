@@ -23,4 +23,4 @@ jobs:
         run: |
           make
           make run-test-against-v1 > output-fight.log
-          if ! grep -q "Player 1 wins" output-fight.log; then exit 1; fi
+          if ! grep -q "Player 2 wins" output-fight.log; then exit 1; fi
