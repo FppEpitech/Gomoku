@@ -1,0 +1,26 @@
+name: Fights
+
+on:
+  push:
+    branches: '**'
+
+jobs:
+  check_program:
+    name: Check program
+    runs-on: ubuntu-latest
+    container:  ghcr.io/epitech/coding-style-checker:latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Fight against basic ai
+        run: |
+          make
+          make run > output-fight.log
+          if ! grep -q "Player 1 wins" output-fight.log; then exit 1; fi
+      - name: Fight against ai v1
+        run: |
+          make
+          make run-test-against-v1 > output-fight.log
+          if ! grep -q "Player 1 wins" output-fight.log; then exit 1; fi

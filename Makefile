@@ -100,3 +100,10 @@ run: $(NAME)
 	./liskvork-bin
 	rm -f liskvork-bin
 	rm -f config.ini
+
+run-test-against-v1: $(NAME)
+	cp tests/liskvork-bin ./
+	cp tests/config-aiv1-run.ini ./config.ini
+	./liskvork-bin
+	rm -f liskvork-bin
+	rm -f config.ini

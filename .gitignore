@@ -174,3 +174,7 @@ pbrain-gomoku-ai
 *.gcda
 *.gcno
 unit_tests
+
+#config.ini
+./config.ini
+!tests/config.ini
