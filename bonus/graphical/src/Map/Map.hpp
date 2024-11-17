@@ -115,6 +115,7 @@ class Map {
         /**
          * @brief Display map on a graphical window.
          *
+         * @param graphicLib Graphical library.
          */
         void displayMapGraphic(GraphicLib *graphicLib);
 
@@ -123,6 +124,13 @@ class Map {
          *
          */
         void play(void);
+
+        /**
+         * @brief Mouse button click on map.
+         *
+         * @param graphicLib Graphical library.
+         */
+        void clickOnMap(GraphicLib *graphicLib);
 
     private:
 

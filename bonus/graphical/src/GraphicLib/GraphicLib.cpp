@@ -97,3 +97,8 @@ void GraphicLib::drawRectangle(int x, int y, float width, float height)
 {
     DrawRectangleLines(x, y, width, height, Color{0,0,0,255});
 }
+
+bool GraphicLib::isMouseButtonReleased(int button)
+{
+    return IsMouseButtonReleased(button);
+}

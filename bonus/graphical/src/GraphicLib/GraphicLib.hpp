@@ -41,6 +41,9 @@ class GraphicLib {
 
         void drawRectangle(int x, int y, float width, float height);
 
+        bool isMouseButtonReleased(int button);
+
+
     private:
 
         Camera                                      _camera;        //< Player camera.

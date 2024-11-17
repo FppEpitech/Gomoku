@@ -25,11 +25,12 @@ int main() {
         graphicLib.startDraw();
 
         map.displayMapGraphic(&graphicLib);
-
+        if (graphicLib.isMouseButtonReleased(MOUSE_BUTTON_LEFT))
+            map.clickOnMap(&graphicLib);
+        graphicLib.endDraw();
         // std::string command;
         // std::getline(std::cin, command);
 
-        graphicLib.endDraw();
 
         // if (!parser.parseCommand(command, map, gameRule))
         //     std::cerr << "Invalid command." << std::endl;

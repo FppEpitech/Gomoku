@@ -85,12 +85,6 @@ void Map::displayMapGraphic(GraphicLib *graphicLib)
 
     float cellSize = (width > height) ? height : width;
 
-    _map[0][0].setValue(CellValue::PLAYER1);
-    _map[1][0].setValue(CellValue::PLAYER1);
-    _map[0][2].setValue(CellValue::PLAYER1);
-    _map[3][0].setValue(CellValue::PLAYER2);
-    _map[19][19].setValue(CellValue::PLAYER1);
-
     for (std::size_t x = 0; x < _size; x++) {
         for (std::size_t y = 0; y < _size; y++) {
             graphicLib->drawRectangle(x * cellSize + 50, y * cellSize + 50, cellSize, cellSize);
@@ -100,6 +94,22 @@ void Map::displayMapGraphic(GraphicLib *graphicLib)
                 graphicLib->drawTexture(ASSET_PLAYER_1, x * cellSize - 3000 * 0.02 / 8 + 50, y * cellSize - 3000 * 0.02 / 8 + 50, 0.02, GRAY);
         }
     }
+}
+
+void Map::clickOnMap(GraphicLib *graphicLib)
+{
+    float width = GetScreenWidth() - 100;
+    float height = GetScreenHeight() - 100;
+    width /= _size;
+    height /= _size;
+    float cellSize = (width > height) ? height : width;
+    std::pair<int, int> mousePos = graphicLib->getMousePosition();
+
+    int x = (mousePos.first - 50) / cellSize;
+    int y = (mousePos.second - 50) / cellSize;
+
+    if (x < int(_map.size()) && y < int(_map[x].size()) && _map[x][y].getValue() == CellValue::NONE)
+        _map[x][y].setValue(CellValue::PLAYER1);
 }
 
 void Map::play(void)
