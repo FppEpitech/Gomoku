@@ -6,11 +6,15 @@
 ##
 
 # Flags
-NAME = pbrain-gomoku-ai-graphic
+NAME = 	pbrain-gomoku-ai-graphic
 
-MAIN = src/main.cpp
+MAIN = 	src/main.cpp
 
-SRC = src/GraphicLib/GraphicLib.cpp	\
+SRC = 	src/GraphicLib/GraphicLib.cpp	\
+		src/Map/Map.cpp \
+		src/Map/canAlign.cpp \
+		src/Map/winLineFour.cpp \
+		src/Map/winPatterns.cpp \
 
 TEST_FILES	= \
 

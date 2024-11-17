@@ -33,13 +33,13 @@ class GraphicLib {
 
         std::pair<int, int> getMousePosition();
 
-        void drawTexture(std::string texturePath, float posx, float posy, float scale);
+        void drawTexture(std::string texturePath, float posx, float posy, float scale, Color Color);
 
         std::pair<float, float> getSizeWithWindow(float width, float height);
 
         float getScaleWithWindow(float scale);
 
-        void drawRectangle();
+        void drawRectangle(int x, int y, float width, float height);
 
     private:
 

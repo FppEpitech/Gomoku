@@ -13,7 +13,8 @@
 
 int main() {
     Map map;
-    map.setSize(20);
+    // map.setSize(20);
+    map.createMap(20);
     // GameRules gameRule;
     // Parser parser;
 
@@ -22,6 +23,8 @@ int main() {
     while (graphicLib.isWindowOpen()) {
         graphicLib.clear();
         graphicLib.startDraw();
+
+        map.displayMapGraphic(&graphicLib);
 
         // std::string command;
         // std::getline(std::cin, command);
