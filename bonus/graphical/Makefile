@@ -12,9 +12,8 @@ MAIN = 	src/main.cpp
 
 SRC = 	src/GraphicLib/GraphicLib.cpp	\
 		src/Map/Map.cpp \
-		src/Map/canAlign.cpp \
-		src/Map/winLineFour.cpp \
-		src/Map/winPatterns.cpp \
+		src/Parser/Parser.cpp \
+		src/GameRules/GamesRules.cpp \
 
 TEST_FILES	= \
 
@@ -65,3 +64,6 @@ fclean: clean
 	@$(call GREEN,"✅ [$@] done !")
 
 re:	fclean all
+
+run: $(NAME)
+	./liskvork-bin
