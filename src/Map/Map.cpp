@@ -105,8 +105,7 @@ void Map::play(void)
             file << "Winning move : " << winningMove->first << "," << winningMove->second << std::endl;
         std::cout << winningMove->first << "," << winningMove->second << std::endl;
         _map[winningMove->first][winningMove->second].setValue(CellValue::PLAYER1);
-    } else if (avoidLoose)
-    {
+    } else if (avoidLoose) {
         if (file.is_open())
             file << "Avoid loosing move : " << avoidLoose->first << "," << avoidLoose->second << std::endl;
         std::cout << avoidLoose->first << "," << avoidLoose->second << std::endl;
