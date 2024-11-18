@@ -165,7 +165,7 @@ cython_debug/
 .vscode/
 
 # binary
-pbrain-gomoku-ai
+pbrain-gomoku-ai*
 
 # C++
 *.o

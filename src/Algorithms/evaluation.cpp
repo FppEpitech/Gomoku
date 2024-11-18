@@ -37,7 +37,7 @@ std::pair<int, int> Algorithm::_countInDirectionEvaluation(int x, int y, CellVal
     return {first, second};
 }
 
-std::size_t Algorithm::evaluateLine(int x, int y, CellValue player, int vx, int vy, std::size_t scoreMax)
+std::size_t Algorithm::evaluateLine(int x, int y, CellValue player, int vx, int vy)
 {
     std::pair<int, int> left, right;
     left = _countInDirectionEvaluation(x, y, player, vx, vy);
@@ -55,18 +55,21 @@ std::size_t Algorithm::evaluateLine(int x, int y, CellValue player, int vx, int 
     if (count > 5)
         count = 5;
     count *= SCORE_PERCENTAGE;
-    if (count > (int)scoreMax)
-        scoreMax = count;
+    return count;
+}
 
-    return scoreMax;
+int Algorithm::_evalCreatePattern(int x, int y, CellValue player)
+{
+    return 0;
 }
 
 int Algorithm::evaluation(int x, int y, CellValue player)
 {
     std::size_t score = 0;
-    score = evaluateLine(x, y, player, HORIZONTAL, score);
-    score = evaluateLine(x, y, player, DIAGONAL_RIGHT, score);
-    score = evaluateLine(x, y, player, DIAGONAL_LEFT, score);
-    score = evaluateLine(x, y, player, VERTICAL, score);
+    score += _evalCreatePattern(x, y, player);
+    score += evaluateLine(x, y, player, HORIZONTAL);
+    score += evaluateLine(x, y, player, DIAGONAL_RIGHT);
+    score += evaluateLine(x, y, player, DIAGONAL_LEFT);
+    score += evaluateLine(x, y, player, VERTICAL);
     return score;
 }

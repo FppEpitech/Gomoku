@@ -7,10 +7,6 @@ enum class CellValue;
 class Cell;
 
 class Algorithm {
-    private:
-        std::vector<std::vector<Cell>> _map;
-
-        std::size_t _size;
     public:
 
         Algorithm(std::size_t &size, std::vector<std::vector<Cell>> &map) : _map(map), _size(size) {}
@@ -66,7 +62,7 @@ class Algorithm {
          * @param scoreMax Score max of the current point.
          * @return std::size_t Return the Score max.
          */
-        std::size_t evaluateLine(int x, int y, CellValue player, int vx, int vy, std::size_t scoreMax);
+        std::size_t evaluateLine(int x, int y, CellValue player, int vx, int vy);
 
         /**
          * @brief Check all direction of conditional play.
@@ -80,4 +76,19 @@ class Algorithm {
          * @return std::pair<int, int> first is values before space, second is value after space.
          */
         std::pair<int, int> _countInDirectionEvaluation(int x, int y, CellValue player, int dx, int dy);
+
+    private:
+
+        /**
+         * @brief Evaluate the creation of patterns.
+         *
+         * @param x X of conditional play.
+         * @param y Y of conditional play.
+         * @param player Player to check.
+         * @return int Score.
+         */
+        int _evalCreatePattern(int x, int y, CellValue player);
+
+        std::vector<std::vector<Cell>> _map;
+        std::size_t _size;
 };
