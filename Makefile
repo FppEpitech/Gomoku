@@ -14,6 +14,7 @@ SRC = 	src/Parser/Parser.cpp \
 		src/Map/Map.cpp \
 		src/Map/canAlign.cpp \
 		src/Map/winPatterns.cpp \
+		src/Map/winLineFour.cpp \
 		src/GameRules/GamesRules.cpp \
 		src/Algorithms/Algorithm.cpp \
 		src/Algorithms/miniMax.cpp \
@@ -24,6 +25,7 @@ SRC = 	src/Parser/Parser.cpp \
 TEST_FILES	= 	easy_win/test_easy_win.cpp \
 				avoid_lose/test_avoid_loose.cpp \
 				complexPattern/test_complexPattern.cpp \
+				complexPattern/test_lineFour.cpp \
 				createComplexPattern/test_createComplexPattern.cpp \
 
 # Tests
@@ -98,6 +100,13 @@ docker:
 run: $(NAME)
 	cp tests/liskvork-bin ./
 	cp tests/config.ini ./
+	./liskvork-bin
+	rm -f liskvork-bin
+	rm -f config.ini
+
+run-test-against-v1: $(NAME)
+	cp tests/liskvork-bin ./
+	cp tests/config-aiv1-run.ini ./config.ini
 	./liskvork-bin
 	rm -f liskvork-bin
 	rm -f config.ini
