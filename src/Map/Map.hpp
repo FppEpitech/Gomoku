@@ -220,6 +220,33 @@ class Map {
         bool _checkDirectionLineFour(int x, int y, CellValue player, int dx, int dy);
 
         /**
+         * @brief Check if the player can align X pawns.
+         *
+         * @param player Player to check.
+         */
+        std::optional<std::pair<int, int>> _canAlignMultipleLineOfThree(CellValue player);
+
+        /**
+         * @brief Check the conditional play.
+         *
+         * @param x X of conditional play.
+         * @param y Y of conditional play.
+         * @param player Player to check.
+         */
+        bool _checkWinMultipleLineOfThree(int x, int y, CellValue player);
+
+        /**
+         * @brief Check all direction of conditional play.
+         *
+         * @param x X of conditional play.
+         * @param y Y of conditional play.
+         * @param player Player to check.
+         * @param dx Direction in X.
+         * @param dy Direction in Y
+         */
+        bool _checkDirectionMultipleLineOfThree(int x, int y, CellValue player, int dx, int dy);
+
+        /**
          * @brief Evaluate if a pattern is present.
          *
          * @param x X of conditional play.

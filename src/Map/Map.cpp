@@ -82,6 +82,8 @@ void Map::play(void)
     auto avoidwinningPattern = _checkForWinPattern(CellValue::PLAYER2);
     auto winningLineFour = _canAlignFourPawns(CellValue::PLAYER1);
     auto avoidWinningLineFour = _canAlignFourPawns(CellValue::PLAYER2);
+    auto winningMultipleLineOfThree = _canAlignMultipleLineOfThree(CellValue::PLAYER1);
+    auto avoidWinningMultipleLineOfThree = _canAlignMultipleLineOfThree(CellValue::PLAYER2);
     std::ofstream file("output.log", std::ios_base::app);
 
     if (winningMove) {
@@ -106,14 +108,24 @@ void Map::play(void)
         _map[avoidwinningPattern->first][avoidwinningPattern->second].setValue(CellValue::PLAYER1);
     } else if (winningLineFour) {
         if (file.is_open())
-            file << "Avoid Line of Four loosing move : " << winningLineFour->first << "," << winningLineFour->second << std::endl;
+            file << "Wining Line of Four move : " << winningLineFour->first << "," << winningLineFour->second << std::endl;
         std::cout << winningLineFour->first << "," << winningLineFour->second << std::endl;
         _map[winningLineFour->first][winningLineFour->second].setValue(CellValue::PLAYER1);
     } else if (avoidWinningLineFour) {
         if (file.is_open())
-            file << "Avoid Line of Four loosing move : " << avoidWinningLineFour->first << "," << avoidWinningLineFour->second << std::endl;
+            file << "Avoid Line of Four Wining move : " << avoidWinningLineFour->first << "," << avoidWinningLineFour->second << std::endl;
         std::cout << avoidWinningLineFour->first << "," << avoidWinningLineFour->second << std::endl;
         _map[avoidWinningLineFour->first][avoidWinningLineFour->second].setValue(CellValue::PLAYER1);
+    } else if (winningMultipleLineOfThree) {
+        if (file.is_open())
+            file << "Wining Multiple Line of Three move : " << winningMultipleLineOfThree->first << "," << winningMultipleLineOfThree->second << std::endl;
+        std::cout << winningMultipleLineOfThree->first << "," << winningMultipleLineOfThree->second << std::endl;
+        _map[winningMultipleLineOfThree->first][winningMultipleLineOfThree->second].setValue(CellValue::PLAYER1);
+    } else if (avoidWinningMultipleLineOfThree) {
+        if (file.is_open())
+            file << "Avoid Multiple Line of Three Wining move : " << avoidWinningMultipleLineOfThree->first << "," << avoidWinningMultipleLineOfThree->second << std::endl;
+        std::cout << avoidWinningMultipleLineOfThree->first << "," << avoidWinningMultipleLineOfThree->second << std::endl;
+        _map[avoidWinningMultipleLineOfThree->first][avoidWinningMultipleLineOfThree->second].setValue(CellValue::PLAYER1);
     } else {
         std::vector<std::pair<int, int>> empty_cells;
         for (int x = 0; x < (int)_size; ++x) {

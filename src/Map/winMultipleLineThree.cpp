@@ -7,35 +7,39 @@
 
 #include "Map.hpp"
 
-std::optional<std::pair<int, int>> Map::_canAlignFourPawns(CellValue player)
+std::optional<std::pair<int, int>> Map::_canAlignMultipleLineOfThree(CellValue player)
 {
     for (int x = 0; x < (int)_size; ++x)
         for (int y = 0; y < (int)_size; ++y)
             if (_map[x][y].getValue() == CellValue::NONE)
-                if (_checkWinLineFour(x, y, player))
+                if (_checkWinMultipleLineOfThree(x, y, player))
                     return std::make_pair(x, y);
     return std::nullopt;
 }
 
-bool Map::_checkWinLineFour(int x, int y, CellValue player)
+bool Map::_checkWinMultipleLineOfThree(int x, int y, CellValue player)
 {
     _map[x][y].setValue(player);
-    bool win = (_checkDirectionLineFour(x, y, player, HORIZONTAL) ||
-                _checkDirectionLineFour(x, y, player, VERTICAL) ||
-                _checkDirectionLineFour(x, y, player, DIAGONAL_RIGHT) ||
-                _checkDirectionLineFour(x, y, player, DIAGONAL_LEFT));
+    bool winHorizontal = _checkDirectionMultipleLineOfThree(x, y, player, HORIZONTAL);
+    bool winVertical = _checkDirectionMultipleLineOfThree(x, y, player, VERTICAL);
+    bool winDiagonalRight = _checkDirectionMultipleLineOfThree(x, y, player, DIAGONAL_RIGHT);
+    bool winDiagonalLeft = _checkDirectionMultipleLineOfThree(x, y, player, DIAGONAL_LEFT);
     _map[x][y].setValue(CellValue::NONE);
-    return win;
+
+    if ((winHorizontal + winVertical + winDiagonalRight + winDiagonalLeft) >= 2)
+        return true;
+    else
+        return false;
 }
 
-bool Map::_checkDirectionLineFour(int x, int y, CellValue player, int dx, int dy)
+bool Map::_checkDirectionMultipleLineOfThree(int x, int y, CellValue player, int dx, int dy)
 {
     int count = 1;
 
     int countPositiv = _countInDirection(x, y, player, dx, dy);
     int countNegativ = _countInDirection(x, y, player, -dx, -dy);
 
-    if (countPositiv + countNegativ + count < 4)
+    if (countPositiv + countNegativ + count < 3)
         return false;
 
 
