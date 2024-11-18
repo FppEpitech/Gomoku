@@ -7,11 +7,13 @@
 
 #include "Map.hpp"
 
-std::optional<std::pair<int, int>> Map::_canAlignFourPawns(CellValue player, int x, int y)
+std::optional<std::pair<int, int>> Map::_canAlignFourPawns(CellValue player)
 {
-    if (_map[x][y].getValue() == CellValue::NONE)
-        if (_checkWinLineFour(x, y, player))
-            return std::make_pair(x, y);
+    for (int x = 0; x < (int)_size; ++x)
+        for (int y = 0; y < (int)_size; ++y)
+            if (_map[x][y].getValue() == CellValue::NONE)
+                if (_checkWinLineFour(x, y, player))
+                    return std::make_pair(x, y);
     return std::nullopt;
 }
 
