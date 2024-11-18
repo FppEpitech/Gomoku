@@ -86,32 +86,32 @@ void Map::play(void)
 
     if (winningMove) {
         if (file.is_open())
-                file << "Winning move : " << winningMove->first << "," << winningMove->second << std::endl;
+            file << "Winning move : " << winningMove->first << "," << winningMove->second << std::endl;
         std::cout << winningMove->first << "," << winningMove->second << std::endl;
         _map[winningMove->first][winningMove->second].setValue(CellValue::PLAYER1);
     } else if (avoidLoose) {
         if (file.is_open())
-                file << "Avoid loosing move : " << avoidLoose->first << "," << avoidLoose->second << std::endl;
+            file << "Avoid loosing move : " << avoidLoose->first << "," << avoidLoose->second << std::endl;
         std::cout << avoidLoose->first << "," << avoidLoose->second << std::endl;
         _map[avoidLoose->first][avoidLoose->second].setValue(CellValue::PLAYER1);
     } else if (winningPattern) {
         if (file.is_open())
-                file << "Wining patern move : " << winningPattern->first << "," << winningPattern->second << std::endl;
+            file << "Wining patern move : " << winningPattern->first << "," << winningPattern->second << std::endl;
         std::cout << winningPattern->first << "," << winningPattern->second << std::endl;
         _map[winningPattern->first][winningPattern->second].setValue(CellValue::PLAYER1);
     } else if (avoidwinningPattern) {
         if (file.is_open())
-                file << "Avoid wining patern move : " << avoidwinningPattern->first << "," << avoidwinningPattern->second << std::endl;
+            file << "Avoid wining patern move : " << avoidwinningPattern->first << "," << avoidwinningPattern->second << std::endl;
         std::cout << avoidwinningPattern->first << "," << avoidwinningPattern->second << std::endl;
         _map[avoidwinningPattern->first][avoidwinningPattern->second].setValue(CellValue::PLAYER1);
     } else if (winningLineFour) {
         if (file.is_open())
-                file << "Avoid Line of Four loosing move : " << winningLineFour->first << "," << winningLineFour->second << std::endl;
+            file << "Avoid Line of Four loosing move : " << winningLineFour->first << "," << winningLineFour->second << std::endl;
         std::cout << winningLineFour->first << "," << winningLineFour->second << std::endl;
         _map[winningLineFour->first][winningLineFour->second].setValue(CellValue::PLAYER1);
     } else if (avoidWinningLineFour) {
         if (file.is_open())
-                file << "Avoid Line of Four loosing move : " << avoidWinningLineFour->first << "," << avoidWinningLineFour->second << std::endl;
+            file << "Avoid Line of Four loosing move : " << avoidWinningLineFour->first << "," << avoidWinningLineFour->second << std::endl;
         std::cout << avoidWinningLineFour->first << "," << avoidWinningLineFour->second << std::endl;
         _map[avoidWinningLineFour->first][avoidWinningLineFour->second].setValue(CellValue::PLAYER1);
     } else {

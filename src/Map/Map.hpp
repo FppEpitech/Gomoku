@@ -123,6 +123,7 @@ class Map {
          *
          * @param player Player to check.
          * @param nbPawns Nb Pawns to check if the player can align
+         * @return std::optional<std::pair<int, int>> Position to play, or null.
          */
         std::optional<std::pair<int, int>> _canAlignNbPawns(CellValue player, int nbPawns);
 
