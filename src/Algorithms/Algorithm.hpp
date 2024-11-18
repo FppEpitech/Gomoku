@@ -77,6 +77,8 @@ class Algorithm {
          */
         std::pair<int, int> _countInDirectionEvaluation(int x, int y, CellValue player, int dx, int dy);
 
+        bool playWinPattern(int x, int y, CellValue player);
+
     private:
 
         /**
@@ -85,9 +87,15 @@ class Algorithm {
          * @param x X of conditional play.
          * @param y Y of conditional play.
          * @param player Player to check.
-         * @return int Score.
+         * @return std::size_t Score.
          */
-        int _evalCreatePattern(int x, int y, CellValue player);
+        std::size_t _evalCreatePattern(int x, int y, CellValue player);
+
+        bool _evaluatePattern(int x, int y, CellValue player, int vx, int vy);
+        std::tuple<int, int, CellValue> _countInDirectionWithBlocks(int x, int y, CellValue player, int dx, int dy);
+
+
+
 
         std::vector<std::vector<Cell>> _map;
         std::size_t _size;

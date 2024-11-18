@@ -6,13 +6,14 @@
 */
 
 #include "Map.hpp"
+#include "Algorithms/Algorithm.hpp"
 
 std::optional<std::pair<int, int>>  Map::_checkForWinPattern(CellValue player)
 {
     for (int x = 0; x < (int)_size; ++x)
         for (int y = 0; y < (int)_size; ++y)
             if (_map[x][y].getValue() == CellValue::NONE)
-                if (_playWinPattern(x, y, player))
+                if (_algo->playWinPattern(x, y, player))
                     return std::make_pair(x, y);
     return std::nullopt;
 }
