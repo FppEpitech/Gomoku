@@ -45,8 +45,8 @@ bool Map::_checkDirectionLineFour(int x, int y, CellValue player, int dx, int dy
     int end2_x = x - (dx * countNegativ) - dx;
     int end2_y = y - (dy * countNegativ) - dy;
 
-    bool end1_free = (end1_y >= 0 && end1_y < (int) _size && end1_x >= 0 && end1_x < (int) _size && _map[end1_x][end2_y].getValue() == CellValue::NONE);
-    bool end2_free = (end2_y >= 0 && end2_y < (int) _size && end2_x >= 0 && end2_x < (int) _size && _map[end1_x][end2_y].getValue() == CellValue::NONE);
+    bool end1_free = (end1_y >= 0 && end1_y < (int) _size && end1_x >= 0 && end1_x < (int) _size && _map[end1_x][end1_y].getValue() == CellValue::NONE);
+    bool end2_free = (end2_y >= 0 && end2_y < (int) _size && end2_x >= 0 && end2_x < (int) _size && _map[end2_x][end2_y].getValue() == CellValue::NONE);
 
     return end1_free && end2_free;
 }

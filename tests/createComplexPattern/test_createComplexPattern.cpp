@@ -24,18 +24,30 @@ std::vector<std::vector<int>> BOARD_CREATE_COMPLEX_PATTERN_WIN1 = {
     {0, 0, 0, 0, 1, 0},
     {0, 0, 0, 0, 1, 0},
     {0, 0, 0, 0, 1, 0},
-    {0, 1, 0, 1, 0, 0},
+    {2, 1, 0, 1, 0, 0},
     {0, 0, 0, 0, 0, 0}
 };
 std::string BOARD_CREATE_COMPLEX_PATTERN_ANSWER_1 = "4,2\n";
 
+std::vector<std::vector<int>> BOARD_CREATE_COMPLEX_PATTERN_WIN2 = {
+    {2, 0, 0, 0, 2, 0},
+    {0, 0, 0, 0, 1, 0},
+    {0, 0, 1, 0, 1, 0},
+    {0, 0, 0, 1, 1, 0},
+    {0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0}
+};
+std::string BOARD_CREATE_COMPLEX_PATTERN_ANSWER_2 = "1,1\n";
+
 std::vector<std::vector<std::vector<int>>> boardsCreatePattern = {
     BOARD_CREATE_COMPLEX_PATTERN_WIN1,
+    BOARD_CREATE_COMPLEX_PATTERN_WIN2,
 
 };
 
 std::vector<std::string> answersCreatePattern = {
     BOARD_CREATE_COMPLEX_PATTERN_ANSWER_1,
+    BOARD_CREATE_COMPLEX_PATTERN_ANSWER_2,
 };
 
 void createMapPattern(std::string file, std::vector<std::vector<int>> board, int size)
@@ -61,6 +73,26 @@ Test(CreateComplexPatterns, test_create_complex_patterns1, .timeout = 5, .init =
     Parser parser;
     GameRules gameRules;
     int i = 0;
+
+    Map map;
+    int size = boardsCreatePattern[i].size();
+    map.createMap(size);
+    std::string path = "test_create_complex_pattern1.txt";
+    createMapPattern(path, boardsCreatePattern[i], size);
+    FILE *input_redirected = freopen(path.c_str(), "r", stdin);
+    if (!input_redirected)
+        cr_assert_fail("Failed to redirect stdin to file");
+    parser.parseCommand("BOARD", map, gameRules);
+    fclose(input_redirected);
+    remove(path.c_str());
+    cr_assert_stdout_eq_str(answersCreatePattern[i].c_str());
+}
+
+Test(CreateComplexPatterns, test_create_complex_patterns2, .timeout = 5, .init = redirect_all_std_create_complex_pattern)
+{
+    Parser parser;
+    GameRules gameRules;
+    int i = 1;
 
     Map map;
     int size = boardsCreatePattern[i].size();

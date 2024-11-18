@@ -61,6 +61,8 @@ int Algorithm::computeMiniMax(int depth, bool playerTurn, int alpha, int beta, i
             int score = computeMiniMax(depth - 1, true, alpha, beta, moves[i].first, moves[i].second, reducedMoves);
             _map[moves[i].first][moves[i].second].setValue(CellValue::NONE);
             minEval = std::min(minEval, score);
+            if (score > 1000)
+                return score;
             if (alpha >= minEval)
                 return minEval;
             beta = std::min(beta, score);

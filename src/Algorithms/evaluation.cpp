@@ -60,10 +60,8 @@ std::size_t Algorithm::evaluateLine(int x, int y, CellValue player, int vx, int 
 
 std::size_t Algorithm::_evalCreatePattern(int x, int y, CellValue player)
 {
-    if (player == CellValue::PLAYER1 && playWinPattern(x, y, player)) {
-        std::cout << "yaaa" << std::endl;
+    if (player == CellValue::PLAYER1 && playWinPattern(x, y, player))
         return 2000;
-    }
     return 0;
 }
 
@@ -77,8 +75,6 @@ int Algorithm::evaluation(int x, int y, CellValue player)
     score += evaluateLine(x, y, player, VERTICAL);
     return score;
 }
-
-//////////////////////////
 
 bool Algorithm::playWinPattern(int x, int y, CellValue player)
 {
@@ -134,10 +130,7 @@ std::tuple<int, int, CellValue> Algorithm::_countInDirectionWithBlocks(int x, in
                 break;
             }
         } else {
-            if (player == CellValue::PLAYER1)
-                end = CellValue::PLAYER2;
-            else
-                end = CellValue::PLAYER1;
+            end = CellValue::NONE;
             break;
         }
     }
