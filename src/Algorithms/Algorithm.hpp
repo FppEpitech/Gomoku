@@ -8,9 +8,9 @@ class Cell;
 
 class Algorithm {
     private:
-        std::vector<std::vector<Cell>> &_map;
+        std::vector<std::vector<Cell>> _map;
 
-        std::size_t &_size;
+        std::size_t _size;
     public:
 
         Algorithm(std::size_t &size, std::vector<std::vector<Cell>> &map) : _map(map), _size(size) {}
