@@ -77,15 +77,28 @@ void Map::displayMap(void)
 void Map::play(void)
 {
     std::ofstream file("output.log", std::ios_base::app);
-
+    std::optional<std::pair<int, int>> winningMove;
+    std::optional<std::pair<int, int>> avoidLoose;
+    std::optional<std::pair<int, int>> winningPattern;
+    std::optional<std::pair<int, int>> avoidwinningPattern;
+    std::optional<std::pair<int, int>> winningLineFour;
+    std::optional<std::pair<int, int>> avoidWinningLineFour;
     for (int x = 0; x < (int)_size; ++x) {
         for (int y = 0; y < (int)_size; ++y) {
-            auto winningMove = _canAlignNbPawns(CellValue::PLAYER1, PAWNS_TO_WIN, x, y);
-            auto avoidLoose = _canAlignNbPawns(CellValue::PLAYER2, PAWNS_TO_WIN, x, y);
-            auto winningPattern = _checkForWinPattern(CellValue::PLAYER1, x, y);
-            auto avoidwinningPattern = _checkForWinPattern(CellValue::PLAYER2, x, y);
-            auto winningLineFour = _canAlignFourPawns(CellValue::PLAYER1, x, y);
-            auto avoidWinningLineFour = _canAlignFourPawns(CellValue::PLAYER2, x, y);
+            auto res = _canAlignNbPawns(CellValue::PLAYER1, PAWNS_TO_WIN, x, y);
+            if (res != std::nullopt) winningMove = res;
+            res = _canAlignNbPawns(CellValue::PLAYER2, PAWNS_TO_WIN, x, y);
+            if (res != std::nullopt) avoidLoose = res;
+            res = _checkForWinPattern(CellValue::PLAYER1, x, y);
+            if (res != std::nullopt) winningPattern = res;
+            res = _checkForWinPattern(CellValue::PLAYER2, x, y);
+            if (res != std::nullopt) avoidwinningPattern = res;
+            res = _canAlignFourPawns(CellValue::PLAYER1, x, y);
+            if (res != std::nullopt) winningLineFour = res;
+            res = _canAlignFourPawns(CellValue::PLAYER2, x, y);
+            if (res != std::nullopt) avoidWinningLineFour = res;
+        }
+    }
             if (winningMove) {
                 if (file.is_open())
                         file << "Winning move : " << winningMove->first << "," << winningMove->second << std::endl;
@@ -134,7 +147,5 @@ void Map::play(void)
                     displayMap();
                 }
             }
-        }
-    }
     file.close();
 }
