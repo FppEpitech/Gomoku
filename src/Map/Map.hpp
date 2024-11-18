@@ -123,8 +123,11 @@ class Map {
          *
          * @param player Player to check.
          * @param nbPawns Nb Pawns to check if the player can align
+         * @param x X of play.
+         * @param y Y of play.
+         * @return std::optional<std::pair<int, int>> Position to play, or null.
          */
-        std::optional<std::pair<int, int>> _canAlignNbPawns(CellValue player, int nbPawns);
+        std::optional<std::pair<int, int>> _canAlignNbPawns(CellValue player, int nbPawns, int x, int y);
 
         /**
          * @brief Check the conditional play.
@@ -133,6 +136,8 @@ class Map {
          * @param y Y of conditional play.
          * @param player Player to check.
          * @param nbPawns Nb Pawns to check if the player can align
+         * @param x X of play.
+         * @param y Y of play.
          */
         bool _checkWin(int x, int y, CellValue player, int nbPawns);
 
@@ -163,9 +168,11 @@ class Map {
          * @brief Check if there is a winning pattern.
          *
          * @param player Player to check.
+         * @param x X of play.
+         * @param y Y of play.
          * @return std::optional<std::pair<int, int>> Position to play, or null.
          */
-        std::optional<std::pair<int, int>> _checkForWinPattern(CellValue player);
+        std::optional<std::pair<int, int>> _checkForWinPattern(CellValue player, int x, int y);
 
         /**
          * @brief Try to play a pattern.
@@ -195,8 +202,10 @@ class Map {
          * @brief Check if the player can align X pawns.
          *
          * @param player Player to check.
+         * @param x X of play.
+         * @param y Y of play.
          */
-        std::optional<std::pair<int, int>> _canAlignFourPawns(CellValue player);
+        std::optional<std::pair<int, int>> _canAlignFourPawns(CellValue player, int x, int y);
 
         /**
          * @brief Check the conditional play.
