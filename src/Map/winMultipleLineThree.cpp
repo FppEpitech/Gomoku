@@ -7,13 +7,11 @@
 
 #include "Map.hpp"
 
-std::optional<std::pair<int, int>> Map::_canAlignMultipleLineOfThree(CellValue player)
+std::optional<std::pair<int, int>> Map::_canAlignMultipleLineOfThree(CellValue player, int x, int y)
 {
-    for (int x = 0; x < (int)_size; ++x)
-        for (int y = 0; y < (int)_size; ++y)
-            if (_map[x][y].getValue() == CellValue::NONE)
-                if (_checkWinMultipleLineOfThree(x, y, player))
-                    return std::make_pair(x, y);
+    if (_map[x][y].getValue() == CellValue::NONE)
+        if (_checkWinMultipleLineOfThree(x, y, player))
+            return std::make_pair(x, y);
     return std::nullopt;
 }
 
