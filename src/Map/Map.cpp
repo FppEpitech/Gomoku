@@ -87,38 +87,16 @@ void Map::play(void)
 
     for (int x = 0; x < (int)_size; ++x) {
         for (int y = 0; y < (int)_size; ++y) {
-            if (winningMove == std::nullopt) {
-                auto res = _canAlignNbPawns(CellValue::PLAYER1, PAWNS_TO_WIN, x, y);
-                if (res != std::nullopt) winningMove = res;
-            }
-            if (avoidLoose == std::nullopt) {
-                auto res = _canAlignNbPawns(CellValue::PLAYER2, PAWNS_TO_WIN, x, y);
-                if (res != std::nullopt) avoidLoose = res;
-            }
-            if (winningPattern == std::nullopt) {
-                auto res = _checkForWinPattern(CellValue::PLAYER1, x, y);
-                if (res != std::nullopt) winningPattern = res;
-            }
-            if (avoidwinningPattern == std::nullopt) {
-                auto res = _checkForWinPattern(CellValue::PLAYER2, x, y);
-                if (res != std::nullopt) avoidwinningPattern = res;
-            }
-            if (winningLineFour == std::nullopt) {
-                auto res = _canAlignFourPawns(CellValue::PLAYER1, x, y);
-                if (res != std::nullopt) winningLineFour = res;
-            }
-            if (avoidWinningLineFour == std::nullopt) {
-                auto res = _canAlignFourPawns(CellValue::PLAYER2, x, y);
-                if (res != std::nullopt) avoidWinningLineFour = res;
-            }
-            if (winningMultipleLineOfThree == std::nullopt) {
-                auto res = _canAlignMultipleLineOfThree(CellValue::PLAYER1, x, y);
-                if (res != std::nullopt) winningMultipleLineOfThree = res;
-            }
-            if (avoidWinningMultipleLineOfThree == std::nullopt) {
-                auto res = _canAlignMultipleLineOfThree(CellValue::PLAYER2, x, y);
-                if (res != std::nullopt) avoidWinningMultipleLineOfThree = res;
-            }
+            if (!winningMove) winningMove = _canAlignNbPawns(CellValue::PLAYER1, PAWNS_TO_WIN, x, y);
+            if (!avoidLoose) avoidLoose = _canAlignNbPawns(CellValue::PLAYER2, PAWNS_TO_WIN, x, y);
+            if (!winningPattern) winningPattern = _checkForWinPattern(CellValue::PLAYER1, x, y);
+            if (!avoidwinningPattern) avoidwinningPattern = _checkForWinPattern(CellValue::PLAYER2, x, y);
+            if (!winningLineFour) winningLineFour = _canAlignFourPawns(CellValue::PLAYER1, x, y);
+            if (!avoidWinningLineFour) avoidWinningLineFour = _canAlignFourPawns(CellValue::PLAYER2, x, y);
+            if (!winningMultipleLineOfThree) winningMultipleLineOfThree = _canAlignMultipleLineOfThree(CellValue::PLAYER1, x, y);
+            if (!avoidWinningMultipleLineOfThree) avoidWinningMultipleLineOfThree = _canAlignMultipleLineOfThree(CellValue::PLAYER2, x, y);
+            if (winningMove || avoidLoose || winningPattern || avoidwinningPattern || winningLineFour || avoidWinningLineFour || winningMultipleLineOfThree || avoidWinningMultipleLineOfThree)
+                break;
         }
     }
     std::ofstream file("output.log", std::ios_base::app);
