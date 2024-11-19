@@ -169,30 +169,6 @@ class Map {
         std::optional<std::pair<int, int>> _checkForWinPattern(CellValue player);
 
         /**
-         * @brief Try to play a pattern.
-         *
-         * @param x X of conditional play.
-         * @param y Y of conditional play.
-         * @param player Player to check.
-         * @return true Pattern matched.
-         * @return false Pattern don't matched.
-         */
-        bool _playWinPattern(int x, int y, CellValue player);
-
-        /**
-         * @brief Check all direction of conditional play.
-         *
-         * @param x X of conditional play.
-         * @param y Y of conditional play.
-         * @param player Player to check.
-         * @param dx Direction in X.
-         * @param dy Direction in Y.
-         * @return std::tuple<int, int, CellValue> Return number of first alignement of pieces,
-         * the second alignement, and the value which separate first and second.
-         */
-        std::tuple<int, int, CellValue> _countInDirectionWithBlocks(int x, int y, CellValue player, int dx, int dy);
-
-        /**
          * @brief Check if the player can align X pawns.
          *
          * @param player Player to check.
@@ -245,19 +221,6 @@ class Map {
          * @param dy Direction in Y
          */
         bool _checkDirectionMultipleLineOfThree(int x, int y, CellValue player, int dx, int dy);
-
-        /**
-         * @brief Evaluate if a pattern is present.
-         *
-         * @param x X of conditional play.
-         * @param y Y of conditional play.
-         * @param player Player to check.
-         * @param vx Direction in X.
-         * @param vy Direction in Y.
-         * @return true It's a winning pattern.
-         * @return false It's not.
-         */
-        bool evaluatePattern(int x, int y, CellValue player, int vx, int vy);
 
         std::size_t _size;                       // Size of map.
         std::vector<std::vector<Cell>> _map;     // Map where play.
