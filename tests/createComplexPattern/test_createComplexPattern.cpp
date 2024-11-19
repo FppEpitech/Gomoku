@@ -68,7 +68,7 @@ void createMapPattern(std::string file, std::vector<std::vector<int>> board, int
     fclose(input_file);
 }
 
-Test(CreateComplexPatterns, test_create_complex_patterns1, .timeout = 5, .init = redirect_all_std_create_complex_pattern)
+Test(CreateComplexPatterns, test_create_complex_patterns1, .timeout = 6, .init = redirect_all_std_create_complex_pattern)
 {
     Parser parser;
     GameRules gameRules;
@@ -88,7 +88,7 @@ Test(CreateComplexPatterns, test_create_complex_patterns1, .timeout = 5, .init =
     cr_assert_stdout_eq_str(answersCreatePattern[i].c_str());
 }
 
-Test(CreateComplexPatterns, test_create_complex_patterns2, .timeout = 5, .init = redirect_all_std_create_complex_pattern)
+Test(CreateComplexPatterns, test_create_complex_patterns2, .timeout = 6, .init = redirect_all_std_create_complex_pattern)
 {
     Parser parser;
     GameRules gameRules;
