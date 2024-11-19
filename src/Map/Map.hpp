@@ -123,9 +123,11 @@ class Map {
          *
          * @param player Player to check.
          * @param nbPawns Nb Pawns to check if the player can align
+         * @param x X of play.
+         * @param y Y of play.
          * @return std::optional<std::pair<int, int>> Position to play, or null.
          */
-        std::optional<std::pair<int, int>> _canAlignNbPawns(CellValue player, int nbPawns);
+        std::optional<std::pair<int, int>> _canAlignNbPawns(CellValue player, int nbPawns, int x, int y);
 
         /**
          * @brief Check the conditional play.
@@ -164,9 +166,11 @@ class Map {
          * @brief Check if there is a winning pattern.
          *
          * @param player Player to check.
+         * @param x X of play.
+         * @param y Y of play.
          * @return std::optional<std::pair<int, int>> Position to play, or null.
          */
-        std::optional<std::pair<int, int>> _checkForWinPattern(CellValue player);
+        std::optional<std::pair<int, int>> _checkForWinPattern(CellValue player, int x, int y);
 
         /**
          * @brief Try to play a pattern.
@@ -196,8 +200,10 @@ class Map {
          * @brief Check if the player can align X pawns.
          *
          * @param player Player to check.
+         * @param x X of play.
+         * @param y Y of play.
          */
-        std::optional<std::pair<int, int>> _canAlignFourPawns(CellValue player);
+        std::optional<std::pair<int, int>> _canAlignFourPawns(CellValue player, int x, int y);
 
         /**
          * @brief Check the conditional play.
@@ -218,33 +224,6 @@ class Map {
          * @param dy Direction in Y
          */
         bool _checkDirectionLineFour(int x, int y, CellValue player, int dx, int dy);
-
-        /**
-         * @brief Check if the player can align X pawns.
-         *
-         * @param player Player to check.
-         */
-        std::optional<std::pair<int, int>> _canAlignMultipleLineOfThree(CellValue player);
-
-        /**
-         * @brief Check the conditional play.
-         *
-         * @param x X of conditional play.
-         * @param y Y of conditional play.
-         * @param player Player to check.
-         */
-        bool _checkWinMultipleLineOfThree(int x, int y, CellValue player);
-
-        /**
-         * @brief Check all direction of conditional play.
-         *
-         * @param x X of conditional play.
-         * @param y Y of conditional play.
-         * @param player Player to check.
-         * @param dx Direction in X.
-         * @param dy Direction in Y
-         */
-        bool _checkDirectionMultipleLineOfThree(int x, int y, CellValue player, int dx, int dy);
 
         /**
          * @brief Evaluate if a pattern is present.

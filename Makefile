@@ -15,7 +15,6 @@ SRC = 	src/Parser/Parser.cpp \
 		src/Map/canAlign.cpp \
 		src/Map/winPatterns.cpp \
 		src/Map/winLineFour.cpp \
-		src/Map/winMultipleLineThree.cpp \
 		src/GameRules/GamesRules.cpp \
 		src/Algorithms/Algorithm.cpp \
 		src/Algorithms/miniMax.cpp \
@@ -23,8 +22,7 @@ SRC = 	src/Parser/Parser.cpp \
 
 
 
-TEST_FILES	= 	complexPattern/test_multipleLineThree.cpp \
-				easy_win/test_easy_win.cpp \
+TEST_FILES	= 	easy_win/test_easy_win.cpp \
 				avoid_lose/test_avoid_loose.cpp \
 				complexPattern/test_complexPattern.cpp \
 				complexPattern/test_lineFour.cpp \
