@@ -65,10 +65,19 @@ std::size_t Algorithm::_evalCreatePattern(int x, int y, CellValue player)
     return 0;
 }
 
+std::size_t Algorithm::_evalCreateSquarePattern(int x, int y, CellValue player)
+{
+    (void) x;
+    (void) y;
+    (void) player;
+    return 0;
+}
+
 int Algorithm::evaluation(int x, int y, CellValue player)
 {
     std::size_t score = 0;
     score += _evalCreatePattern(x, y, player);
+    score += _evalCreateSquarePattern(x, y, player);
     score += evaluateLine(x, y, player, HORIZONTAL);
     score += evaluateLine(x, y, player, DIAGONAL_RIGHT);
     score += evaluateLine(x, y, player, DIAGONAL_LEFT);
