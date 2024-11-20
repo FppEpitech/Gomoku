@@ -84,7 +84,7 @@ void Map::play(void)
     auto avoidWinningLineFour = _canAlignFourPawns(CellValue::PLAYER2);
     auto winningMultipleLineOfThree = _canAlignMultipleLineOfThree(CellValue::PLAYER1);
     auto avoidWinningMultipleLineOfThree = _canAlignMultipleLineOfThree(CellValue::PLAYER2);
-    auto winningSquare = _canAlignSquare(CellValue::PLAYER1);
+    // auto winningSquare = _canAlignSquare(CellValue::PLAYER1);
     auto avoidWinningSquare = _canAlignSquare(CellValue::PLAYER2);
     std::ofstream file("output.log", std::ios_base::app);
 

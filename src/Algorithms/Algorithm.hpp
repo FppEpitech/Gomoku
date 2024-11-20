@@ -75,7 +75,7 @@ class Algorithm {
          * @param dy Direction in Y.
          * @return std::pair<int, int> first is values before space, second is value after space.
          */
-        std::pair<int, int> _countInDirectionEvaluation(int x, int y, CellValue player, int dx, int dy);
+        std::tuple<int, int, CellValue> _countInDirectionEvaluation(int x, int y, CellValue player, int dx, int dy);
 
         bool playWinPattern(int x, int y, CellValue player);
 

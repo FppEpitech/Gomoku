@@ -8,13 +8,15 @@
 #include "Algorithms/Algorithm.hpp"
 #include "Map/Map.hpp"
 
-std::pair<int, int> Algorithm::_countInDirectionEvaluation(int x, int y, CellValue player, int dx, int dy)
+std::tuple<int, int, CellValue> Algorithm::_countInDirectionEvaluation(int x, int y, CellValue player, int dx, int dy)
 {
     int first = 0;
     int second = 0;
     bool isBlank = false;
+    CellValue end = CellValue::WALL;
+    int i = 0;
 
-    for (int i = 0; i < 4; i++) {
+    for (; i < 4; i++) {
         x += dx;
         y += dy;
         if (x >= 0 && x < (int)_size && y >= 0 && y < (int)_size) {
@@ -23,30 +25,42 @@ std::pair<int, int> Algorithm::_countInDirectionEvaluation(int x, int y, CellVal
                     ++first;
                 else
                     ++second;
-            }
-            else if (_map[x][y].getValue() == CellValue::NONE && !isBlank) {
+            } else if (_map[x][y].getValue() == CellValue::NONE && !isBlank) {
+                end = CellValue::NONE;
                 isBlank = true;
                 continue;
-            }
-            else
+            }else {
+                end = _map[x][y].getValue();
                 break;
+            }
         } else {
+            if (!(isBlank && second == 0))
+                end = CellValue::WALL;
             break;
         }
     }
-    return {first, second};
+    if (i == 4) {
+        x += dx;
+        y += dy;
+        if (x >= 0 && x < (int)_size && y >= 0 && y < (int)_size) {
+            end = _map[x][y].getValue();
+        } else
+            end = CellValue::WALL;
+    }
+
+    return {first, second, end};
 }
 
 std::size_t Algorithm::evaluateLine(int x, int y, CellValue player, int vx, int vy)
 {
-    std::pair<int, int> left, right;
+    std::tuple<int, int, CellValue> left, right;
     left = _countInDirectionEvaluation(x, y, player, vx, vy);
     right = _countInDirectionEvaluation(x, y, player, -vx, -vy);
 
     int l, m, r = 0;
-    m = left.first + right.first;
-    l = left.second + left.first + right.first;
-    r = left.first + right.first + right.second;
+    m = std::get<0>(left) + std::get<0>(right);
+    l = std::get<1>(left) + std::get<0>(left) + std::get<0>(right);
+    r = std::get<0>(left) + std::get<0>(right) + std::get<1>(right);
 
     int count = std::max(m, l);
     count = std::max(count, r);
@@ -55,6 +69,14 @@ std::size_t Algorithm::evaluateLine(int x, int y, CellValue player, int vx, int 
     if (count > 5)
         count = 5;
     count *= SCORE_PERCENTAGE;
+
+    CellValue endLeft = std::get<2>(left);
+    CellValue endRight = std::get<2>(right);
+
+    if (endLeft == CellValue::NONE && endRight == CellValue::NONE)
+        count *= 2;
+    else if (endLeft != CellValue::NONE && endRight != CellValue::NONE)
+        count = 0;
     return count;
 }
 
@@ -65,19 +87,10 @@ std::size_t Algorithm::_evalCreatePattern(int x, int y, CellValue player)
     return 0;
 }
 
-std::size_t Algorithm::_evalCreateSquarePattern(int x, int y, CellValue player)
-{
-    (void) x;
-    (void) y;
-    (void) player;
-    return 0;
-}
-
 int Algorithm::evaluation(int x, int y, CellValue player)
 {
     std::size_t score = 0;
     score += _evalCreatePattern(x, y, player);
-    score += _evalCreateSquarePattern(x, y, player);
     score += evaluateLine(x, y, player, HORIZONTAL);
     score += evaluateLine(x, y, player, DIAGONAL_RIGHT);
     score += evaluateLine(x, y, player, DIAGONAL_LEFT);
