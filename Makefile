@@ -47,7 +47,7 @@ OBJ			=	$(SRC:.cpp=.o)
 MAIN_OBJ	=	$(MAIN:.cpp=.o)
 INCLUDE = -I./src
 
-CXXFLAGS 	= 	-std=c++20 -Wall -Wextra $(INCLUDE)
+CXXFLAGS 	= 	-std=c++20 -Wall -Wextra $(INCLUDE) -O3
 
 # Colors
 YELLOW 		= 	/bin/echo -e "\x1b[33m $1\x1b[0m"

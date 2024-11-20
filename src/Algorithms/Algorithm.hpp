@@ -95,6 +95,6 @@ class Algorithm {
         std::tuple<int, int, CellValue> _countInDirectionWithBlocks(int x, int y, CellValue player, int dx, int dy);
         std::size_t _evalCreateSquarePattern(int x, int y, CellValue player);
 
-        std::vector<std::vector<Cell>> _map;
-        std::size_t _size;
+        std::vector<std::vector<Cell>> &_map;
+        std::size_t &_size;
 };
