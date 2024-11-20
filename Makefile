@@ -15,6 +15,7 @@ SRC = 	src/Parser/Parser.cpp \
 		src/Map/canAlign.cpp \
 		src/Map/winPatterns.cpp \
 		src/Map/winLineFour.cpp \
+		src/Map/winSquare.cpp \
 		src/Map/winMultipleLineThree.cpp \
 		src/GameRules/GamesRules.cpp \
 		src/Algorithms/Algorithm.cpp \
@@ -28,6 +29,7 @@ TEST_FILES	= 	complexPattern/test_multipleLineThree.cpp \
 				avoid_lose/test_avoid_loose.cpp \
 				complexPattern/test_complexPattern.cpp \
 				complexPattern/test_lineFour.cpp \
+				complexPattern/test_squarePatern.cpp \
 
 # Tests
 TEST_NAME 	= 	unit_tests
