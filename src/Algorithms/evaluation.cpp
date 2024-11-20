@@ -51,6 +51,18 @@ std::tuple<int, int, CellValue> Algorithm::_countInDirectionEvaluation(int x, in
     return {first, second, end};
 }
 
+std::size_t Algorithm::computeMaxLineScore(int length, CellValue left, CellValue right)
+{
+    if (length > 5)
+        length = 5;
+    length *= SCORE_PERCENTAGE;
+    if (left == CellValue::NONE && right == CellValue::NONE)
+        length *= 2;
+    else if (left != CellValue::NONE && right != CellValue::NONE)
+        length = 0;
+    return length;
+}
+
 std::size_t Algorithm::evaluateLine(int x, int y, CellValue player, int vx, int vy)
 {
     std::tuple<int, int, CellValue> left, right;
@@ -62,21 +74,36 @@ std::size_t Algorithm::evaluateLine(int x, int y, CellValue player, int vx, int 
     l = std::get<1>(left) + std::get<0>(left) + std::get<0>(right);
     r = std::get<0>(left) + std::get<0>(right) + std::get<1>(right);
 
-    int count = std::max(m, l);
-    count = std::max(count, r);
-    count++;
-
-    if (count > 5)
-        count = 5;
-    count *= SCORE_PERCENTAGE;
-
     CellValue endLeft = std::get<2>(left);
     CellValue endRight = std::get<2>(right);
 
-    if (endLeft == CellValue::NONE && endRight == CellValue::NONE)
-        count *= 2;
-    else if (endLeft != CellValue::NONE && endRight != CellValue::NONE)
-        count = 0;
+    int countM = 0;
+    if (std::get<1>(left) == 0 && std::get<1>(right) == 0)
+        countM = computeMaxLineScore(m, endLeft, endRight);
+    else if (std::get<1>(left) != 0 && std::get<1>(right) == 0)
+        countM = computeMaxLineScore(m, CellValue::NONE, endRight);
+    else if (std::get<1>(left) == 0 && std::get<1>(right) != 0)
+        countM = computeMaxLineScore(m, endLeft, CellValue::NONE);
+    else
+        countM = computeMaxLineScore(m, CellValue::NONE, CellValue::NONE);
+
+
+    int countL = 0;
+    if (std::get<1>(right) != 0)
+        countL = computeMaxLineScore(l, endLeft, CellValue::NONE);
+    else
+        countL = computeMaxLineScore(l, endLeft, endRight);
+
+
+    int countR = 0;
+    if (std::get<1>(left) != 0)
+        countR = computeMaxLineScore(r, CellValue::NONE, endRight);
+    else
+        countR = computeMaxLineScore(r, endLeft, endRight);
+
+    int count = std::max(countL, countR);
+    count = std::max(count, countM);
+
     return count;
 }
 

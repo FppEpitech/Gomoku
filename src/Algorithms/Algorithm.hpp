@@ -93,7 +93,7 @@ class Algorithm {
 
         bool _evaluatePattern(int x, int y, CellValue player, int vx, int vy);
         std::tuple<int, int, CellValue> _countInDirectionWithBlocks(int x, int y, CellValue player, int dx, int dy);
-        std::size_t _evalCreateSquarePattern(int x, int y, CellValue player);
+        std::size_t computeMaxLineScore(int length, CellValue left, CellValue right);
 
         std::vector<std::vector<Cell>> &_map;
         std::size_t &_size;
