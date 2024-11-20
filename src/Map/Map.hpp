@@ -222,6 +222,37 @@ class Map {
          */
         bool _checkDirectionMultipleLineOfThree(int x, int y, CellValue player, int dx, int dy);
 
+        /**
+         * @brief Evaluate if a pattern is present.
+         *
+         * @param x X of conditional play.
+         * @param y Y of conditional play.
+         * @param player Player to check.
+         * @param vx Direction in X.
+         * @param vy Direction in Y.
+         * @return true It's a winning pattern.
+         * @return false It's not.
+         */
+        bool evaluatePattern(int x, int y, CellValue player, int vx, int vy);
+
+        /**
+         * @brief Check the conditional play.
+         *
+         * @param x X of conditional play.
+         * @param y Y of conditional play.
+         * @param player Player to check.
+         */
+        std::optional<std::pair<int, int>> _canAlignSquare(CellValue player);
+
+        /**
+         * @brief Check the conditional play for square.
+         *
+         * @param x X of conditional play.
+         * @param y Y of conditional play.
+         * @param player Player to check.
+         */
+        bool _checkSquare(int x, int y, CellValue player);
+
         std::size_t _size;                       // Size of map.
         std::vector<std::vector<Cell>> _map;     // Map where play.
         std::shared_ptr<Algorithm> _algo;   // Algorithm to play.
