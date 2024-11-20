@@ -30,6 +30,7 @@ TEST_FILES	= 	complexPattern/test_multipleLineThree.cpp \
 				complexPattern/test_complexPattern.cpp \
 				complexPattern/test_lineFour.cpp \
 				complexPattern/test_squarePatern.cpp \
+				createComplexPattern/test_createComplexPattern.cpp \
 
 # Tests
 TEST_NAME 	= 	unit_tests
