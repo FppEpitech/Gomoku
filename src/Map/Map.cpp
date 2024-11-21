@@ -88,7 +88,7 @@ void Map::play(void)
     auto winningSquare = _canAlignSquare(CellValue::PLAYER1);
     auto avoidWinningSquare = _canAlignSquare(CellValue::PLAYER2);
     std::ofstream file("output.log", std::ios_base::app);
-    std::this_thread::sleep_for(std::chrono::milliseconds(10000));
+    // std::this_thread::sleep_for(std::chrono::milliseconds(10000));
     if (this->shouldStop) {
         this->shouldStop = false;
         return;

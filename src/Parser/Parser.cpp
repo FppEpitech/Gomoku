@@ -40,7 +40,6 @@ void Parser::_handleTurn(std::size_t x, std::size_t y, Map& map, int timeout)
     if (future.wait_for(std::chrono::milliseconds(timeout - 1000)) == std::future_status::timeout) {
         map.shouldStop = true;
         std::cout << 5 << "," << 5 << std::endl;
-        std::ofstream("o.log", std::ios_base::app) << "5,5" << std::endl;
         map.getMap()[5][5].setValue(CellValue::PLAYER1);
     }
     // map.play();
