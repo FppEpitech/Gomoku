@@ -6,6 +6,8 @@
 */
 
 #include "Parser.hpp"
+#include <future>
+#include <fstream>
 
 void Parser::_handleStart(std::size_t size, Map& map)
 {
@@ -27,14 +29,21 @@ void Parser::_handleStart(std::size_t size, Map& map)
     }
 }
 
-void Parser::_handleTurn(std::size_t x, std::size_t y, Map& map)
+void Parser::_handleTurn(std::size_t x, std::size_t y, Map& map, int timeout)
 {
     std::vector<std::vector<Cell>> &playGround = map.getMap();
 
     if (playGround.size() == 0)
         return;
     playGround[x][y].setValue(CellValue::PLAYER2);
-    map.play();
+    auto future = std::async(std::launch::async, [&]() { map.play(); });
+    if (future.wait_for(std::chrono::milliseconds(timeout - 1000)) == std::future_status::timeout) {
+        map.shouldStop = true;
+        std::cout << 5 << "," << 5 << std::endl;
+        std::ofstream("o.log", std::ios_base::app) << "5,5" << std::endl;
+        map.getMap()[5][5].setValue(CellValue::PLAYER1);
+    }
+    // map.play();
 }
 
 void Parser::_handleBegin(Map& map)
@@ -140,6 +149,7 @@ bool Parser::parseCommand(std::string command, Map& map, GameRules& rules)
     cleaned_command.erase(std::remove(cleaned_command.begin(), cleaned_command.end(), '\r'), cleaned_command.end());
     log_file << "\nCurrent command: [" << cleaned_command << "]\n";
     log_file.close();
+    map.shouldStop = false;
 
     if (cmd == "START") {
         std::vector<std::string> parts;
@@ -160,7 +170,7 @@ bool Parser::parseCommand(std::string command, Map& map, GameRules& rules)
             std::size_t x, y;
             char delimiter;
             ss >> x >> delimiter >> y;
-            _handleTurn(x, y, map);
+            _handleTurn(x, y, map, rules.getTimeoutTurn());
         }
     } else if (cmd == "BEGIN") {
         _handleBegin(map);

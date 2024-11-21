@@ -8,6 +8,7 @@
 #include "Map.hpp"
 #include "Algorithms/Algorithm.hpp"
 #include <memory>
+#include <bits/this_thread_sleep.h>
 
 Cell::Cell(void)
 {
@@ -87,7 +88,11 @@ void Map::play(void)
     auto winningSquare = _canAlignSquare(CellValue::PLAYER1);
     auto avoidWinningSquare = _canAlignSquare(CellValue::PLAYER2);
     std::ofstream file("output.log", std::ios_base::app);
-
+    std::this_thread::sleep_for(std::chrono::milliseconds(10000));
+    if (this->shouldStop) {
+        this->shouldStop = false;
+        return;
+    }
     if (winningMove) {
         if (file.is_open())
             file << "Winning move : " << winningMove->first << "," << winningMove->second << std::endl;
@@ -144,6 +149,10 @@ void Map::play(void)
 
         if (!empty_cells.empty()) {
             std::pair<int, int> move = _algo->miniMax();
+                if (this->shouldStop) {
+                    this->shouldStop = false;
+                    return;
+            }
             _map[move.first][move.second].setValue(CellValue::PLAYER1);
             std::cout << move.first << "," << move.second << std::endl;
             if (file.is_open())

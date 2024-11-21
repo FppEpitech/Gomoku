@@ -116,6 +116,8 @@ class Map {
          */
         void play(void);
 
+        bool shouldStop = false; // Stop the process?
+
     private:
 
         /**
@@ -256,4 +258,5 @@ class Map {
         std::size_t _size;                       // Size of map.
         std::vector<std::vector<Cell>> _map;     // Map where play.
         std::shared_ptr<Algorithm> _algo;   // Algorithm to play.
+
 };
