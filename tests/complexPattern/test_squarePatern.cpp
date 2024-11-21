@@ -115,11 +115,36 @@ std::vector<std::vector<int>> BOARD_SQUARE_4 = {
 };
 std::string BOARD_SQUARE_ANSWER_4 = "9,11\n";
 
+std::vector<std::vector<int>> BOARD_SQUARE_5 = {
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 2, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 2, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+};
+std::string BOARD_SQUARE_ANSWER_5 = "8,12\n";
+
 std::vector<std::vector<std::vector<int>>> boards_square = {
     BOARD_SQUARE_1,
     BOARD_SQUARE_2,
     BOARD_SQUARE_3,
     BOARD_SQUARE_4,
+    BOARD_SQUARE_5
 };
 
 std::vector<std::string> answers_square = {
@@ -127,6 +152,7 @@ std::vector<std::string> answers_square = {
     BOARD_SQUARE_ANSWER_2,
     BOARD_SQUARE_ANSWER_3,
     BOARD_SQUARE_ANSWER_4,
+    BOARD_SQUARE_ANSWER_5,
 };
 
 void createMapSquare(std::string file, std::vector<std::vector<int>> board, int size)
@@ -217,6 +243,26 @@ Test(LineMultipleThree, test_complex_square4, .timeout = 5, .init = redirect_all
     int size = boards_square[i].size();
     map.createMap(size);
     std::string path = "test_square3.txt";
+    createMapSquare(path, boards_square[i], size);
+    FILE *input_redirected = freopen(path.c_str(), "r", stdin);
+    if (!input_redirected)
+        cr_assert_fail("Failed to redirect stdin to file");
+    parser.parseCommand("BOARD", map, gameRules);
+    fclose(input_redirected);
+    remove(path.c_str());
+    cr_assert_stdout_eq_str(answers_square[i].c_str());
+}
+
+Test(LineMultipleThree, test_complex_square5, .timeout = 5, .init = redirect_all_std_square)
+{
+    Parser parser;
+    GameRules gameRules;
+    int i = 4;
+
+    Map map;
+    int size = boards_square[i].size();
+    map.createMap(size);
+    std::string path = "test_square4.txt";
     createMapSquare(path, boards_square[i], size);
     FILE *input_redirected = freopen(path.c_str(), "r", stdin);
     if (!input_redirected)

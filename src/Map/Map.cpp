@@ -147,7 +147,7 @@ void Map::play(void)
             _map[move.first][move.second].setValue(CellValue::PLAYER1);
             std::cout << move.first << "," << move.second << std::endl;
             if (file.is_open())
-                file << "We've played on : " << move.first << "," << move.second << std::endl;
+                file << "MinMAx played on : " << move.first << "," << move.second << std::endl;
             displayMap();
         }
     }

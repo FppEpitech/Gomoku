@@ -83,10 +83,12 @@ void Parser::_handleBoard(Map& map)
 
             std::ofstream outputFile("output.log", std::ios_base::app);
             if (outputFile.is_open()) {
-                outputFile << "Case of Map [" << x << "] | [" << y << "] <- [" << field << "] Player" << std::endl;
+                outputFile << std::endl << "Case of Map [" << x << "] | [" << y << "] <- [" << field << "] Player" << std::endl;
                 outputFile.close();
             }
             outputFile.close();
+            map.displayMap();
+
         } catch (const std::exception& e) {
             std::ofstream outputFile("output.log", std::ios_base::app);
             if (outputFile.is_open()) {
