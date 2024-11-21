@@ -19,15 +19,15 @@ std::optional<std::pair<int, int>> Map::_canAlignSquare(CellValue player)
 
 bool Map::_checkSquare(int x, int y, CellValue player)
 {
-    if (x + 1 < _size && y + 1 < _size)
+    if (x + 1 < (int)_size && y + 1 < (int)_size)
         if (_map[x + 1][y].getValue() == player && _map[x][y + 1].getValue() == player && _map[x + 1][y + 1].getValue() == player)
             return true;
 
-    if (x - 1 >= 0 && y + 1 < _size)
+    if (x - 1 >= 0 && y + 1 < (int)_size)
         if (_map[x - 1][y].getValue() == player && _map[x][y + 1].getValue() == player && _map[x - 1][y + 1].getValue() == player)
             return true;
 
-    if (x + 1 < _size && y - 1 >= 0)
+    if (x + 1 < (int)_size && y - 1 >= 0)
         if (_map[x + 1][y].getValue() == player && _map[x][y - 1].getValue() == player && _map[x + 1][y - 1].getValue() == player)
             return true;
 

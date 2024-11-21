@@ -34,7 +34,8 @@
 enum class CellValue {
     NONE = '.',
     PLAYER1 = 'O',
-    PLAYER2 = 'X'
+    PLAYER2 = 'X',
+    WALL = '#'
 };
 
 class Algorithm;
