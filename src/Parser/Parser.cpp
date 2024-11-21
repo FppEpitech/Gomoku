@@ -27,14 +27,14 @@ void Parser::_handleStart(std::size_t size, Map& map)
     }
 }
 
-void Parser::_handleTurn(std::size_t x, std::size_t y, Map& map)
+void Parser::_handleTurn(std::size_t x, std::size_t y, Map& map, int timeout)
 {
     std::vector<std::vector<Cell>> &playGround = map.getMap();
 
     if (playGround.size() == 0)
         return;
     playGround[x][y].setValue(CellValue::PLAYER2);
-    map.play();
+    map.play(timeout);
 }
 
 void Parser::_handleBegin(Map& map)
@@ -49,7 +49,7 @@ void Parser::_handleBegin(Map& map)
     playGround[MIDDLE_X][MIDDLE_Y].setValue(CellValue::PLAYER1);
 }
 
-void Parser::_handleBoard(Map& map)
+void Parser::_handleBoard(Map& map, int timeout)
 {
     std::string line;
     std::vector<std::vector<Cell>>& playGround = map.getMap();
@@ -96,7 +96,7 @@ void Parser::_handleBoard(Map& map)
             continue;
         }
     }
-    map.play();
+    map.play(timeout - 200);
 }
 
 void Parser::_handleInfo(std::string key, std::size_t value, GameRules& rules)
@@ -160,12 +160,12 @@ bool Parser::parseCommand(std::string command, Map& map, GameRules& rules)
             std::size_t x, y;
             char delimiter;
             ss >> x >> delimiter >> y;
-            _handleTurn(x, y, map);
+            _handleTurn(x, y, map, rules.getTimeoutTurn() - 200);
         }
     } else if (cmd == "BEGIN") {
         _handleBegin(map);
     } else if (cmd == "BOARD") {
-        _handleBoard(map);
+        _handleBoard(map, rules.getTimeoutTurn());
     } else if (cmd == "INFO") {
         std::vector<std::string> parts;
         std::string part;

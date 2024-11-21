@@ -8,7 +8,7 @@
 #include "Algorithms/Algorithm.hpp"
 #include "Map/Map.hpp"
 
-std::pair<int, int> Algorithm::miniMax()
+std::pair<int, int> Algorithm::miniMax(int timeout)
 {
     int bestScore = int(-INFINITY);
     std::pair<int, int> bestMove;
@@ -16,6 +16,8 @@ std::pair<int, int> Algorithm::miniMax()
     std::vector<std::pair<int, int>> reducedMoves;
 
     for (std::size_t i = 0; i < moves.size(); i++) {
+        if (start.time_since_epoch().count() >= timeout)
+            return bestMove;
         _map[moves[i].first][moves[i].second].setValue(CellValue::PLAYER1);
         reducedMoves = moves;
         reducedMoves.erase(reducedMoves.begin() + i);

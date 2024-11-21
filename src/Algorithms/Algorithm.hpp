@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <utility>
+#include <chrono>
 
 enum class CellValue;
 class Cell;
@@ -13,10 +14,10 @@ class Algorithm {
 
         /**
          * @brief Compute the tree with minimax.
-         *
+         * @param timeout Timeout in ms.
          * @return std::pair<int, int> Position to play.
          */
-        std::pair<int, int> miniMax();
+        std::pair<int, int> miniMax(int timeout);
 
         /**
          * @brief Minimax algorithm.
@@ -78,6 +79,8 @@ class Algorithm {
         std::tuple<int, int, CellValue> _countInDirectionEvaluation(int x, int y, CellValue player, int dx, int dy);
 
         bool playWinPattern(int x, int y, CellValue player);
+
+        std::chrono::_V2::system_clock::time_point start;
 
     private:
 

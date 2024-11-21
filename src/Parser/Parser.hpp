@@ -37,9 +37,9 @@ class Parser {
     private:
 
         void _handleStart(std::size_t size, Map& map);
-        void _handleTurn(std::size_t x, std::size_t y, Map& map);
+        void _handleTurn(std::size_t x, std::size_t y, Map& map, int timeout);
         void _handleBegin(Map& map);
-        void _handleBoard(Map& map);
+        void _handleBoard(Map& map, int timeout);
         void _handleInfo(std::string key, std::size_t value, GameRules& map);
         void _handleEnd(void);
         void _handleAbout(void);

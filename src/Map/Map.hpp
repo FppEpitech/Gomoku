@@ -113,9 +113,9 @@ class Map {
 
         /**
          * @brief Play on the map.
-         *
+         * @param timeout Timeout in ms.
          */
-        void play(void);
+        void play(int timeout);
 
     private:
 

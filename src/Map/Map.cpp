@@ -74,7 +74,7 @@ void Map::displayMap(void)
     file.close();
 }
 
-void Map::play(void)
+void Map::play(int timeout)
 {
     auto winningMove = _canAlignNbPawns(CellValue::PLAYER1, PAWNS_TO_WIN);
     auto avoidLoose = _canAlignNbPawns(CellValue::PLAYER2, PAWNS_TO_WIN);
@@ -87,6 +87,7 @@ void Map::play(void)
     // auto winningSquare = _canAlignSquare(CellValue::PLAYER1);
     auto avoidWinningSquare = _canAlignSquare(CellValue::PLAYER2);
     std::ofstream file("output.log", std::ios_base::app);
+    _algo->start = std::chrono::high_resolution_clock::now();
 
     if (winningMove) {
         if (file.is_open())
@@ -143,7 +144,7 @@ void Map::play(void)
         }
 
         if (!empty_cells.empty()) {
-            std::pair<int, int> move = _algo->miniMax();
+            std::pair<int, int> move = _algo->miniMax(timeout);
             _map[move.first][move.second].setValue(CellValue::PLAYER1);
             std::cout << move.first << "," << move.second << std::endl;
             if (file.is_open())
