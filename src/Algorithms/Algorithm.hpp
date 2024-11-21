@@ -6,6 +6,7 @@
 
 enum class CellValue;
 class Cell;
+#define TIMEOUT_LAP 200
 
 class Algorithm {
     public:

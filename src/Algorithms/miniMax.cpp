@@ -19,7 +19,7 @@ std::pair<int, int> Algorithm::miniMax(int timeout)
     for (std::size_t i = 0; i < moves.size(); i++) {
         auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - start).count();
 
-        if (elapsed >= timeout && timeout != -200) {
+        if (elapsed >= timeout && timeout != -(TIMEOUT_LAP)) {
             std::ofstream("o.log", std::ios_base::app) << timeout << std::endl;
             return bestMove;
         }
