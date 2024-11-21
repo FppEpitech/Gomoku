@@ -7,6 +7,7 @@
 
 #include "Algorithms/Algorithm.hpp"
 #include "Map/Map.hpp"
+#include <chrono>
 
 std::pair<int, int> Algorithm::miniMax(int timeout)
 {
@@ -16,8 +17,12 @@ std::pair<int, int> Algorithm::miniMax(int timeout)
     std::vector<std::pair<int, int>> reducedMoves;
 
     for (std::size_t i = 0; i < moves.size(); i++) {
-        if (start.time_since_epoch().count() >= timeout)
+        auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - start).count();
+
+        if (elapsed >= timeout && timeout != -200) {
+            std::ofstream("o.log", std::ios_base::app) << timeout << std::endl;
             return bestMove;
+        }
         _map[moves[i].first][moves[i].second].setValue(CellValue::PLAYER1);
         reducedMoves = moves;
         reducedMoves.erase(reducedMoves.begin() + i);
