@@ -9,8 +9,10 @@
 
 void Parser::_handleStart(std::size_t size, Map& map)
 {
+    std::cout << "START" << size << std::endl;
     if (size != 20) {
         std::cout << "ERROR size is not 20" << std::endl;
+        exit(84);
     } else {
         map.setSize(size);
         map.createMap(size);
@@ -149,6 +151,8 @@ bool Parser::parseCommand(std::string command, Map& map, GameRules& rules)
 
         if (parts.size() == 1)
             _handleStart(std::stoi(parts[0]), map);
+        else
+            exit(84);
     } else if (cmd == "TURN") {
         std::vector<std::string> parts;
         std::string part;
