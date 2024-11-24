@@ -9,7 +9,6 @@
 
 void Parser::_handleStart(std::size_t size, Map& map)
 {
-    std::cout << "START" << size << std::endl;
     if (size != 20) {
         std::cout << "ERROR size is not 20" << std::endl;
         exit(84);
